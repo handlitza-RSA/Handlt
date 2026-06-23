@@ -44,13 +44,9 @@
 
   <header class="sticky top-0 z-50 bg-hBlack text-white border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-      <button onclick="goToPage('home')" class="flex items-center gap-3 text-left">
-        <img src="logo.png" alt="HNDLT logo" class="logo-img h-10 w-10 rounded-xl object-contain bg-white p-1" onerror="this.style.display='none'">
-        <div>
-          <div class="font-black tracking-[0.18em] text-xl leading-none">HNDLT</div>
-          <div class="text-[10px] text-zinc-400 tracking-widest hidden sm:block">EVENT EQUIPMENT</div>
-        </div>
-      </button>
+      <button onclick="goToPage('home')" class="flex items-center gap-3 text-left shrink-0" aria-label="Go to HNDLT home">
+  <img src="logo.png" alt="HNDLT logo" class="logo-img h-14 md:h-16 w-auto max-w-[190px] object-contain bg-white rounded-2xl p-2" onerror="this.style.display='none'">
+</button>
 
       <nav class="hidden lg:flex items-center gap-2 text-sm font-bold">
         <button data-nav="home" onclick="goToPage('home')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Home</button>
