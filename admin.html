@@ -1,191 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>HNDLT Admin Suite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HNDLT Admin | Leads</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = { theme: { extend: { colors: { hBlack:'#0f0f10', hCharcoal:'#1f1f22', hGrey:'#f4f4f5', hMid:'#71717a', hRed:'#ef3b33' }, boxShadow:{ soft:'0 12px 35px rgba(0,0,0,0.08)' } } } }
+  </script>
+  <style>
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
 </head>
-<body class="bg-zinc-100 text-zinc-900 font-sans min-h-screen">
+<body class="bg-hGrey text-hBlack min-h-screen">
 
-  <div class="bg-black text-white p-6 shadow-xl flex flex-col md:flex-row justify-between items-center border-b border-zinc-800">
-    <div>
-      <h1 class="text-3xl font-black tracking-tight flex items-center space-x-2">
-        <span class="bg-white text-black px-2 py-0.5 rounded font-black text-xl">H</span>
-        <span>HNDLT LEAD INTELLIGENCE SYSTEM</span>
-      </h1>
-      <p class="text-zinc-400 text-xs font-mono uppercase tracking-widest mt-1">Live Technical Specifications & Booking Workspace</p>
+<header class="bg-hBlack text-white border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center gap-4">
+    <div class="flex items-center gap-3">
+      <img src="logo.png" alt="HNDLT logo" class="h-10 w-10 rounded-xl object-contain bg-white p-1" onerror="this.style.display='none'">
+      <div><div class="font-black tracking-[0.18em] text-xl">HNDLT</div><div class="text-[10px] text-zinc-400 tracking-widest">ADMIN DASHBOARD</div></div>
     </div>
-    <div class="mt-4 md:mt-0 flex items-center space-x-3">
-      <button onclick="loadLeads()" class="bg-zinc-900 border border-zinc-700 hover:bg-zinc-800 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-sm flex items-center space-x-2">
-        <i class="fa-solid fa-arrows-rotate text-zinc-400"></i>
-        <span>Refresh Ledger</span>
-      </button>
+    <div class="flex gap-2">
+      <a href="index.html" class="hidden sm:inline-flex px-4 py-2 rounded-xl bg-white/10 font-bold hover:bg-white/15">View Site</a>
+      <button id="logoutBtn" onclick="logout()" class="hidden px-4 py-2 rounded-xl bg-white text-hBlack font-black">Logout</button>
     </div>
   </div>
+</header>
 
-  <main class="max-w-5xl mx-auto p-6">
-    <div id="leads-container" class="grid gap-6">
-      <div class="text-center p-16 text-zinc-400 font-medium bg-white border rounded-2xl shadow-sm">
-         <i class="fa-solid fa-spinner animate-spin text-2xl mb-2 text-zinc-400 block"></i> Mining secure storage ledgers...
+<main class="max-w-7xl mx-auto px-4 py-8">
+  <section id="loginPanel" class="max-w-md mx-auto bg-white border rounded-3xl p-8 shadow-soft mt-10">
+    <h1 class="text-3xl font-black mb-2">Admin Login</h1>
+    <p class="text-hMid mb-6">Use the Supabase Auth admin user you created.</p>
+    <form id="loginForm" class="space-y-4">
+      <div><label class="font-black block mb-2">Email</label><input id="adminEmail" type="email" required class="w-full bg-hGrey border rounded-2xl p-4" placeholder="handlit.za@gmail.com"></div>
+      <div><label class="font-black block mb-2">Password</label><input id="adminPassword" type="password" required class="w-full bg-hGrey border rounded-2xl p-4"></div>
+      <button id="loginBtn" class="w-full bg-hBlack text-white rounded-2xl p-4 font-black">Login</button>
+    </form>
+    <p id="loginError" class="hidden mt-4 text-sm text-hRed font-bold"></p>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-black">HNDLT Leads</h1>
+        <p class="text-hMid mt-3">Live quote requests captured from the public website.</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="loadLeads()" class="px-4 py-3 rounded-2xl bg-white border font-black"><i class="fa-solid fa-rotate mr-2"></i>Refresh</button>
+        <button onclick="exportCSV()" class="px-4 py-3 rounded-2xl bg-hBlack text-white font-black"><i class="fa-solid fa-file-csv mr-2"></i>Export CSV</button>
       </div>
     </div>
-  </main>
 
-  <script>
-    const supabaseUrl = "https://lfkssodbanjfamwpscja.supabase.co";
-    const supabaseKey = "sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG";
-    const db = supabase.createClient(supabaseUrl, supabaseKey);
+    <div class="grid md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white border rounded-3xl p-5 shadow-soft"><div class="text-hMid text-sm">Total Leads</div><div id="countTotal" class="text-3xl font-black">0</div></div>
+      <div class="bg-white border rounded-3xl p-5 shadow-soft"><div class="text-hMid text-sm">New</div><div id="countNew" class="text-3xl font-black">0</div></div>
+      <div class="bg-white border rounded-3xl p-5 shadow-soft"><div class="text-hMid text-sm">Confirmed</div><div id="countConfirmed" class="text-3xl font-black">0</div></div>
+      <div class="bg-white border rounded-3xl p-5 shadow-soft"><div class="text-hMid text-sm">Total Estimate Value</div><div id="countValue" class="text-3xl font-black">R0</div></div>
+    </div>
 
-    // Live update function to alter inquiry statuses on the fly
-    async function updateStatus(leadId, newStatus) {
-      const { error } = await db
-        .from("client_requests")
-        .update({ status: newStatus })
-        .eq('id', leadId);
+    <div class="bg-white border rounded-3xl p-4 shadow-soft mb-6 grid md:grid-cols-4 gap-3">
+      <div><label class="font-black text-xs uppercase text-hMid">Search</label><input id="searchInput" oninput="renderLeads()" class="w-full bg-hGrey border rounded-2xl p-3 mt-1" placeholder="Name, number, location"></div>
+      <div><label class="font-black text-xs uppercase text-hMid">Status</label><select id="statusFilter" onchange="renderLeads()" class="w-full bg-hGrey border rounded-2xl p-3 mt-1"><option>All</option><option>New</option><option>Contacted</option><option>Quoted</option><option>Confirmed</option><option>Lost</option></select></div>
+      <div><label class="font-black text-xs uppercase text-hMid">Event Type</label><select id="eventFilter" onchange="renderLeads()" class="w-full bg-hGrey border rounded-2xl p-3 mt-1"><option>All</option></select></div>
+      <div class="flex items-end"><button onclick="clearFilters()" class="w-full bg-hBlack text-white rounded-2xl p-3 font-black">Clear Filters</button></div>
+    </div>
 
-      if (error) {
-        alert("Update Error: " + error.message);
-      } else {
-        loadLeads(); // Instantly refresh layout parameters
-      }
-    }
+    <div id="leadsContainer" class="grid gap-5"></div>
+  </section>
+</main>
 
-    async function loadLeads() {
-      const container = document.getElementById("leads-container");
-      container.innerHTML = `
-        <div class="text-center p-16 text-zinc-400 font-medium bg-white border rounded-2xl shadow-sm">
-           <i class="fa-solid fa-spinner animate-spin text-2xl mb-2 text-zinc-400 block"></i> Syncing cloud database entries...
-        </div>`;
+<script>
+const SUPABASE_URL = "https://lfkssodbanjfamwpscja.supabase.co";
+const SUPABASE_KEY = "sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const money = value => Math.round(Number(value || 0)).toLocaleString('en-ZA');
+let leads = [];
 
-      const { data, error } = await db
-        .from("client_requests")
-        .select("*")
-        .order("created_at", { ascending: false });
+function esc(v){ return String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+function cleanPhone(number){ let n = String(number || '').replace(/\D/g,''); if(n.startsWith('0')) n = '27' + n.slice(1); if(n.startsWith('27')) return n; return n || '27730882155'; }
+function statusClass(status){ const s = status || 'New'; if(s==='Confirmed') return 'bg-black text-white'; if(s==='Lost') return 'bg-zinc-200 text-zinc-600'; if(s==='Quoted') return 'bg-zinc-900 text-white'; if(s==='Contacted') return 'bg-zinc-700 text-white'; return 'bg-white border text-hBlack'; }
 
-      if (error) {
-        container.innerHTML = `<div class="bg-red-50 text-red-600 p-6 rounded-xl border border-red-200 font-bold">Inquiry Sync Failure: ${error.message}</div>`;
-        return;
-      }
+async function checkSession(){
+  const { data } = await db.auth.getSession();
+  if(data.session){ showDashboard(); } else { showLogin(); }
+}
+function showLogin(){ document.getElementById('loginPanel').classList.remove('hidden'); document.getElementById('dashboard').classList.add('hidden'); document.getElementById('logoutBtn').classList.add('hidden'); }
+function showDashboard(){ document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('dashboard').classList.remove('hidden'); document.getElementById('logoutBtn').classList.remove('hidden'); loadLeads(); }
 
-      if (!data || data.length === 0) {
-        container.innerHTML = `
-          <div class="text-center p-16 text-zinc-400 font-medium bg-white border rounded-2xl shadow-sm">
-             <i class="fa-solid fa-folder-open text-3xl block text-zinc-200 mb-3"></i> No consumer quote requests found.
-          </div>`;
-        return;
-      }
+async function login(e){
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn'); const err = document.getElementById('loginError');
+  btn.disabled = true; btn.innerText = 'Logging in...'; err.classList.add('hidden');
+  const email = document.getElementById('adminEmail').value.trim();
+  const password = document.getElementById('adminPassword').value;
+  const { error } = await db.auth.signInWithPassword({ email, password });
+  if(error){ err.textContent = error.message; err.classList.remove('hidden'); btn.disabled=false; btn.innerText='Login'; return; }
+  btn.disabled=false; btn.innerText='Login'; showDashboard();
+}
+async function logout(){ await db.auth.signOut(); showLogin(); }
 
-      container.innerHTML = "";
+async function loadLeads(){
+  const container = document.getElementById('leadsContainer');
+  container.innerHTML = '<div class="bg-white border rounded-3xl p-8 text-center font-black">Loading leads...</div>';
+  const { data, error } = await db.from('client_requests').select('*').order('created_at', { ascending: false });
+  if(error){ container.innerHTML = `<div class="bg-white border rounded-3xl p-8 text-hRed font-black">Error loading leads: ${esc(error.message)}</div>`; return; }
+  leads = data || [];
+  buildEventFilter(); renderLeads();
+}
+function buildEventFilter(){ const select = document.getElementById('eventFilter'); const current = select.value; const types = ['All', ...new Set(leads.map(l=>l.event_type).filter(Boolean))]; select.innerHTML = types.map(t=>`<option>${esc(t)}</option>`).join(''); select.value = types.includes(current) ? current : 'All'; }
+function renderStats(list){
+  document.getElementById('countTotal').textContent = leads.length;
+  document.getElementById('countNew').textContent = leads.filter(l => (l.status || 'New') === 'New').length;
+  document.getElementById('countConfirmed').textContent = leads.filter(l => l.status === 'Confirmed').length;
+  document.getElementById('countValue').textContent = 'R' + money(leads.reduce((s,l)=>s+Number(l.final_total || 0),0));
+}
+function renderLeads(){
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  const eventType = document.getElementById('eventFilter').value;
+  let list = leads.filter(l => {
+    const blob = `${l.full_name} ${l.whatsapp_number} ${l.email} ${l.location} ${l.event_type} ${l.selected_package}`.toLowerCase();
+    return (!search || blob.includes(search)) && (status==='All' || (l.status || 'New')===status) && (eventType==='All' || l.event_type===eventType);
+  });
+  renderStats(list);
+  const container = document.getElementById('leadsContainer');
+  if(list.length === 0){ container.innerHTML = '<div class="bg-white border rounded-3xl p-8 text-center text-hMid font-black">No leads found.</div>'; return; }
+  container.innerHTML = list.map(l => leadCard(l)).join('');
+}
+function leadCard(l){
+  const created = l.created_at ? new Date(l.created_at).toLocaleString() : '';
+  const status = l.status || 'New';
+  return `<article class="bg-white border rounded-3xl shadow-soft overflow-hidden">
+    <div class="p-5 bg-hBlack text-white flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div><div class="text-xs text-zinc-400">${esc(created)}</div><h2 class="text-2xl font-black">${esc(l.full_name)}</h2><div class="text-zinc-300 text-sm">${esc(l.event_type || 'No event type')} • ${esc(l.location || 'No location')}</div></div>
+      <div class="flex flex-wrap gap-2"><span class="px-3 py-2 rounded-xl font-black ${statusClass(status)}">${esc(status)}</span><a href="https://wa.me/${cleanPhone(l.whatsapp_number)}" target="_blank" class="px-3 py-2 rounded-xl bg-white text-hBlack font-black"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</a></div>
+    </div>
+    <div class="p-5 grid lg:grid-cols-3 gap-5">
+      <div class="space-y-2 text-sm"><h3 class="font-black text-lg">Client</h3><p><b>WhatsApp:</b> ${esc(l.whatsapp_number)}</p><p><b>Phone:</b> ${esc(l.phone_number)}</p><p><b>Email:</b> ${esc(l.email)}</p><p><b>Event date:</b> ${esc(l.event_date)}</p><p><b>Guests:</b> ${esc(l.guest_count)}</p><p><b>Indoor/Outdoor:</b> ${esc(l.indoor_outdoor)}</p><p><b>Focus:</b> ${esc(l.event_focus)}</p></div>
+      <div class="space-y-2 text-sm"><h3 class="font-black text-lg">Quote</h3><p><b>Package:</b> ${esc(l.selected_package)}</p><p><b>Equipment:</b> ${esc(l.selected_equipment)}</p><p><b>Budget:</b> ${esc(l.budget_range)}</p><p><b>Delivery:</b> ${esc(l.delivery_required)}</p><p><b>Setup:</b> ${esc(l.setup_required)}</p><p><b>Soundcheck:</b> ${esc(l.soundcheck_required)}</p><p><b>Technician:</b> ${esc(l.technician_required)}</p></div>
+      <div class="space-y-3"><h3 class="font-black text-lg">Totals</h3><div class="bg-hGrey border rounded-2xl p-4 text-sm space-y-1"><div class="flex justify-between"><span>Equipment</span><b>R${money(l.equipment_total)}</b></div><div class="flex justify-between"><span>Service</span><b>R${money(l.service_fee)}</b></div><div class="flex justify-between"><span>Setup</span><b>R${money(l.setup_fee)}</b></div><div class="flex justify-between"><span>Extras</span><b>R${money(l.extras_total)}</b></div><div class="flex justify-between border-t pt-2 mt-2 text-lg"><span>Total</span><b>R${money(l.final_total)}</b></div></div></div>
+    </div>
+    <div class="px-5 pb-5 grid lg:grid-cols-2 gap-4">
+      <div><label class="font-black text-sm block mb-2">Client notes</label><div class="bg-hGrey border rounded-2xl p-4 text-sm min-h-[80px]">${esc(l.notes || 'No notes')}</div></div>
+      <div><label class="font-black text-sm block mb-2">Admin notes</label><textarea id="adminNotes-${l.id}" class="w-full bg-hGrey border rounded-2xl p-4 text-sm min-h-[80px]">${esc(l.admin_notes || '')}</textarea></div>
+    </div>
+    <div class="p-5 border-t bg-hGrey flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <div class="flex flex-wrap gap-2">${['New','Contacted','Quoted','Confirmed','Lost'].map(s => `<button onclick="updateStatus(${l.id}, '${s}')" class="px-3 py-2 rounded-xl border font-black text-sm ${status===s?'bg-hBlack text-white':'bg-white'}">${s}</button>`).join('')}</div>
+      <div class="flex gap-2"><button onclick="saveAdminNotes(${l.id})" class="px-4 py-2 rounded-xl bg-hBlack text-white font-black">Save Notes</button><button onclick="deleteLead(${l.id})" class="px-4 py-2 rounded-xl bg-white border font-black">Delete</button></div>
+    </div>
+  </article>`;
+}
+async function updateStatus(id, status){ const { error } = await db.from('client_requests').update({ status }).eq('id', id); if(error){ alert(error.message); return; } const lead = leads.find(l=>l.id===id); if(lead) lead.status=status; renderLeads(); }
+async function saveAdminNotes(id){ const value = document.getElementById('adminNotes-' + id).value; const { error } = await db.from('client_requests').update({ admin_notes:value }).eq('id', id); if(error){ alert(error.message); return; } const lead = leads.find(l=>l.id===id); if(lead) lead.admin_notes=value; alert('Admin notes saved.'); }
+async function deleteLead(id){ if(!confirm('Delete this lead?')) return; const { error } = await db.from('client_requests').delete().eq('id', id); if(error){ alert(error.message); return; } leads = leads.filter(l=>l.id!==id); renderLeads(); }
+function clearFilters(){ document.getElementById('searchInput').value=''; document.getElementById('statusFilter').value='All'; document.getElementById('eventFilter').value='All'; renderLeads(); }
+function exportCSV(){
+  if(!leads.length){ alert('No leads to export.'); return; }
+  const headers = ['created_at','full_name','whatsapp_number','phone_number','email','event_date','event_type','location','guest_count','indoor_outdoor','event_focus','selected_package','selected_equipment','delivery_required','setup_required','final_total','status','admin_notes','notes'];
+  const csv = [headers.join(',')].concat(leads.map(l => headers.map(h => '"' + String(l[h] ?? '').replaceAll('"','""') + '"').join(','))).join('\n');
+  const blob = new Blob([csv], { type:'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='hndlt-leads.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
 
-      data.forEach(lead => {
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden transition-all duration-300";
-
-        // Date Parser Calculations
-        const stamp = lead.created_at ? new Date(lead.created_at) : null;
-        const formattedDate = stamp ? stamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : "N/A";
-        const cleanPhone = lead.whatsapp_number ? lead.whatsapp_number.replace(/[^0-9]/g, '') : '';
-
-        // Conditional pill coloring based on booking workflow status
-        let statusClasses = "bg-zinc-900 text-white";
-        if (lead.status === 'New') statusClasses = "bg-red-600 text-white animate-pulse";
-        if (lead.status === 'Contacted') statusClasses = "bg-amber-500 text-black";
-        if (lead.status === 'Confirmed') statusClasses = "bg-emerald-600 text-white";
-
-        card.innerHTML = `
-          <div class="bg-zinc-50 px-6 py-4 border-b border-zinc-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-            <div>
-              <div class="flex items-center space-x-2">
-                <h2 class="text-xl font-black text-zinc-900">${lead.full_name || "Anonymous"}</h2>
-                <span class="text-xs px-2 py-0.5 bg-zinc-200 text-zinc-700 font-bold rounded">${lead.lead_source || 'Website'}</span>
-              </div>
-              <span class="text-xs font-mono text-zinc-400 font-semibold">${formattedDate} • Ref Record #${lead.id}</span>
-            </div>
-            
-            <div class="flex items-center space-x-2">
-              <select onchange="updateStatus(${lead.id}, this.value)" class="text-xs font-bold bg-white border p-1.5 rounded-lg focus:outline-none cursor-pointer shadow-sm">
-                <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New Request</option>
-                <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
-                <option value="Confirmed" ${lead.status === 'Confirmed' ? 'selected' : ''}>Confirmed Booking</option>
-                <option value="Cancelled" ${lead.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-              </select>
-              <span class="px-3 py-1 rounded-full font-black text-xs uppercase tracking-wider ${statusClasses}">${lead.status || "New"}</span>
-            </div>
-          </div>
-
-          <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm font-medium border-b border-zinc-100 bg-white">
-            
-            <div class="space-y-2.5">
-              <h3 class="text-xs font-black uppercase text-zinc-400 tracking-widest border-b pb-1">Client Line</h3>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">WhatsApp Connection</span>
-                <a href="https://wa.me/${cleanPhone}" target="_blank" class="text-emerald-600 hover:text-emerald-700 font-bold inline-flex items-center space-x-1 mt-0.5">
-                  <i class="fa-brands fa-whatsapp text-base"></i>
-                  <span class="underline decoration-dotted">${lead.whatsapp_number}</span>
-                </a>
-              </div>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Email Address</span>
-                <span class="text-zinc-700 text-xs">${lead.email || "Not Provided"}</span>
-              </div>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Event Target Date</span>
-                <span class="text-zinc-900 font-black flex items-center mt-0.5"><i class="fa-regular fa-calendar text-zinc-400 mr-1.5"></i>${lead.event_date || "N/A"}</span>
-              </div>
-            </div>
-
-            <div class="space-y-2.5">
-              <h3 class="text-xs font-black uppercase text-zinc-400 tracking-widest border-b pb-1">Event Blueprint</h3>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Venue Destination</span>
-                <span class="text-zinc-800 font-bold flex items-center mt-0.5"><i class="fa-solid fa-location-dot text-zinc-400 mr-1.5"></i>${lead.location || "N/A"}</span>
-              </div>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Event Framework Class</span>
-                <span class="text-zinc-700">${lead.event_type || "N/A"}</span>
-              </div>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Scope & Environment</span>
-                <span class="text-zinc-700 font-semibold">${lead.guest_count ? lead.guest_count + ' Guests' : 'N/A'} • (${lead.indoor_outdoor || 'N/A'})</span>
-              </div>
-            </div>
-
-            <div class="space-y-2.5">
-              <h3 class="text-xs font-black uppercase text-zinc-400 tracking-widest border-b pb-1">Financial Parameters</h3>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Calculated Base Pricing</span>
-                <span class="text-zinc-950 font-black text-base tracking-tight">${lead.quote_value ? 'R ' + Number(lead.quote_value).toFixed(2) : 'Awaiting Custom Spec Line'}</span>
-              </div>
-              <div>
-                <span class="block text-[11px] font-bold text-zinc-400 uppercase">Budget Bracket Limitation</span>
-                <span class="text-zinc-700 font-bold">${lead.budget_range || "N/A"}</span>
-              </div>
-              <div class="flex items-center space-x-4 text-xs font-bold text-zinc-500 mt-1">
-                <div><i class="fa-solid fa-truck text-zinc-400 mr-1"></i>Delivery: <span class="text-zinc-900">${lead.delivery_required === 'Yes' ? 'YES' : 'NO'}</span></div>
-                <div><i class="fa-solid fa-screwdriver-wrench text-zinc-400 mr-1"></i>Setup: <span class="text-zinc-900">${lead.setup_required === 'Yes' ? 'YES' : 'NO'}</span></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="px-6 py-3.5 bg-zinc-50 border-b border-zinc-100 flex items-start space-x-2 text-xs font-medium">
-             <div class="w-24 text-zinc-400 uppercase font-bold tracking-wider pt-0.5 text-[10px]">Hardware Goal:</div>
-             <div class="flex-1 text-zinc-900 font-bold">${lead.equipment_required || "Standard Package Specifications Only."}</div>
-          </div>
-
-          <div class="px-6 py-4 bg-zinc-50/40 text-xs leading-relaxed font-normal">
-            <span class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Additional Commentary Details</span>
-            <p class="text-zinc-600 italic font-medium">${lead.notes || "No extra event parameters entered by custom fields."}</p>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // Run pipeline updates directly upon mounting processes
-    loadLeads();
-  </script>
+document.getElementById('loginForm').addEventListener('submit', login);
+checkSession();
+</script>
 </body>
 </html>
