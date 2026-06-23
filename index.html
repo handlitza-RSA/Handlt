@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HNDLT - Event Equipment Made Simple</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
+        const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
+        const supabase = supabaseJs.createClient(supabaseUrl, supabaseKey);
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlack: '#111111',
+                        brandCharcoal: '#1C1C1C',
+                        brandGrey: '#F5F5F5',
+                        brandRed: '#E6392E',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #F5F5F5; }
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+    </style>
+</head>
+<body class="bg-white text-brandBlack min-h-screen flex flex-col">
+
+    <nav class="bg-brandBlack text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('home')">
+                <div class="bg-white text-black font-bold h-10 w-10 rounded-lg flex items-center justify-center text-xl relative">
+                    H<span class="absolute top-1 right-1 w-2 h-2 bg-black rounded-full border border-white"></span>
+                </div>
+                <span class="font-bold text-xl tracking-wider text-white">HNDLT</span>
+            </div>
+            
+            <div class="flex items-center space-x-2 text-sm">
+                <button onclick="switchView('home')" class="px-2 py-1 rounded hover:bg-brandCharcoal font-medium">Home</button>
+                <button onclick="switchView('catalogue')" class="px-2 py-1 rounded hover:bg-brandCharcoal font-medium">Catalogue</button>
+                <button onclick="switchView('calculator')" class="px-2 py-1 rounded bg-brandRed text-white font-medium">Calculator</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4">
+        
+        <div id="view-home" class="page-view active text-center py-12">
+            <h1 class="text-4xl font-bold mb-4">EQUIPMENT CATALOGUE 2026</h1>
+            <p class="text-zinc-500 max-w-md mx-auto mb-8">Sound • Lighting • DJ Equipment • Event Solutions</p>
+            <button onclick="switchView('catalogue')" class="bg-brandCharcoal text-white px-6 py-3 rounded-md font-semibold hover:bg-brandBlack shadow-md transition">Explore Equipment</button>
+        </div>
+
+        <div id="view-catalogue" class="page-view">
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">Our Sound & Lighting Gear</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white border rounded-xl overflow-hidden shadow-sm">
+                    <div class="p-4 bg-zinc-100 h-48 flex items-center justify-center text-zinc-400">
+                        <i class="fa-solid fa-volume-high text-5xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg">Premium Sound System</h3>
+                        <p class="text-zinc-500 text-sm mt-1">High-fidelity active speakers perfect for weddings and club events.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="font-mono font-bold text-brandRed">Contact for Pricing</span>
+                            <button onclick="switchView('calculator')" class="text-sm bg-brandGrey px-3 py-1.5 rounded hover:bg-zinc-200 font-medium">Add to Calculator</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-calculator" class="page-view">
+            <h2 class="text-2xl font-bold mb-4">Event Cost Calculator</h2>
+            <p class="text-sm text-zinc-500 mb-6">Estimate your equipment needs and save your quote straight to our desk.</p>
+            
+            <div class="bg-brandGrey p-6 rounded-xl border max-w-md">
+                <form id="quoteForm" onsubmit="handleQuoteSubmit(event)">
+                    <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">WhatsApp Number</label>
+                    <input type="tel" id="clientPhone" required placeholder="+27 73 088 2155" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:border-brandRed">
+                    
+                    <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">Additional Notes / Equipment Requests</label>
+                    <textarea id="clientNotes" rows="3" placeholder="Tell us about your event..." class="w-full p-3 border rounded-lg mb-6 focus:outline-none focus:border-brandRed"></textarea>
+                    
+                    <button type="submit" class="w-full bg-brandRed text-white py-3 rounded-lg font-bold uppercase tracking-wide hover:bg-red-700 transition">Submit Request to Handlt</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-brandCharcoal text-zinc-400 text-xs py-8 mt-12 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
+            <div>
+                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> WHATSAPP</span>
+                <a href="https://wa.me/27730882155" target="_blank" class="hover:text-white">+27 73 088 2155</a>
+            </div>
+            <div>
+                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-instagram text-pink-500 mr-1"></i> INSTAGRAM</span>
+                <a href="https://instagram.com/HANDLT_ZA" target="_blank" class="hover:text-white">@HANDLT_ZA</a>
+            </div>
+            <div>
+                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-tiktok text-white mr-1"></i> TIKTOK</span>
+                <a href="https://tiktok.com/@HANDLT_ZA" target="_blank" class="hover:text-white">@HANDLT_ZA</a>
+            </div>
+            <div>
+                <span class="block text-white font-bold mb-1"><i class="fa-solid fa-envelope text-brandRed mr-1"></i> EMAIL</span>
+                <a href="mailto:handlit.za@gmail.com" class="hover:text-white">handlit.za@gmail.com</a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-[11px] text-zinc-600 font-mono">
+            EQUIPMENT CATALOGUE 2026 • HANDLT
+        </div>
+    </footer>
+
+    <script>
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            // Show selected view
+            document.getElementById('view-' + viewId).classList.add('active');
+            // Scroll to top automatically
+            window.scrollTo(0, 0);
+        }
+
+        // Handle sending the client data directly to your Supabase project backend
+        async function handleQuoteSubmit(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('clientPhone').value;
+            const notes = document.getElementById('clientNotes').value;
+
+            // Push directly to your live Supabase Table
+            const { data, error } = await supabase
+                .from('client_requests')
+                .insert([{ whatsapp_number: phone, notes: notes }]);
+
+            if (error) {
+                console.error("Database connection failure:", error);
+                alert("Submission failed. Make sure your database table named 'client_requests' is created inside Supabase!");
+            } else {
+                alert("Success! Your event specifications have been sent to Handlt.");
+                document.getElementById('quoteForm').reset();
+                switchView('home');
+            }
+        }
+    </script>
+</body>
+</html>
