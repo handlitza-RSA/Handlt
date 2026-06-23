@@ -1,113 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HNDLT - Equipment Catalogue & Calculator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HNDLT Quote Request</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-zinc-50 text-zinc-900 font-sans min-h-screen">
+<body class="bg-zinc-100 text-zinc-900 font-sans min-h-screen">
 
-    <nav class="bg-zinc-950 text-white p-4 shadow-md">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2 font-bold tracking-wider text-xl">
-                <span class="bg-white text-black px-2 py-0.5 rounded text-lg">H</span>
-                <span>HNDLT</span>
-            </div>
-            <div class="space-x-6 text-sm font-medium">
-                <a href="#" class="hover:text-zinc-300 transition">Home</a>
-                <a href="#" class="hover:text-zinc-300 transition">Catalogue</a>
-                <a href="#calculator-section" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md shadow transition">Calculator</a>
-            </div>
+  <div class="bg-black text-white p-6 text-center shadow-md">
+    <h1 class="text-4xl font-black tracking-wider">HNDLT</h1>
+    <p class="text-zinc-400 text-xs mt-1 uppercase tracking-widest">Sound • Lighting • DJ Gear • Event Solutions</p>
+  </div>
+
+  <main class="max-w-2xl mx-auto bg-white my-8 p-8 rounded-2xl shadow border border-zinc-200">
+    <h2 class="text-2xl font-black mb-1">Request a Custom Quote</h2>
+    <p class="text-zinc-500 text-sm mb-6">Provide your specifications below. The HNDLT production crew will follow up via WhatsApp.</p>
+
+    <form id="quoteForm" class="space-y-5">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Full Name *</label>
+          <input id="full_name" required placeholder="John Doe" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
         </div>
-    </nav>
-
-    <header class="text-center py-16 bg-white border-b">
-        <h1 class="text-5xl font-black tracking-tight text-zinc-900 mb-4 uppercase">Equipment Catalogue 2026</h1>
-        <p class="text-zinc-500 font-medium tracking-wide text-lg">Sound • Lighting • DJ Equipment • Event Solutions</p>
-    </header>
-
-    <section id="calculator-section" class="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl shadow-sm border">
-        <div class="mb-6">
-            <h2 class="text-2xl font-bold text-zinc-950 flex items-center space-x-2">
-                <i class="fa-solid fa-calculator text-red-600"></i>
-                <span>Request a Custom Quote</span>
-            </h2>
-            <p class="text-sm text-zinc-500 mt-1">Submit your specifications directly to our cloud database.</p>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">WhatsApp Number *</label>
+          <input id="whatsapp_number" required placeholder="+27 73 088 2155" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
         </div>
+      </div>
 
-        <form id="quoteForm" onsubmit="handleQuoteSubmit(event)" class="space-y-5">
-            <div>
-                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">WhatsApp Contact Number</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
-                        <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
-                    </span>
-                    <input type="tel" id="whatsapp_input" required placeholder="+27 73 088 2155" 
-                        class="w-full pl-10 pr-4 py-3 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition">
-                </div>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Email Address</label>
+          <input id="email" type="email" placeholder="name@example.com" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Target Event Date</label>
+          <input id="event_date" type="date" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
+        </div>
+      </div>
 
-            <div>
-                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Equipment Requirements / Event Notes</label>
-                <textarea id="notes_input" required rows="4" placeholder="Mention the equipment you need and event dates..." 
-                    class="w-full p-4 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition"></textarea>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Event Category</label>
+          <select id="event_type" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition text-zinc-700">
+            <option value="">Select Event Type</option>
+            <option>Birthday Party</option>
+            <option>Wedding</option>
+            <option>Church Service</option>
+            <option>Church Conference</option>
+            <option>Funeral</option>
+            <option>Corporate Event</option>
+            <option>School Function</option>
+            <option>Brand Activation</option>
+            <option>DJ Event</option>
+            <option>Private Function</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Venue Location</label>
+          <input id="location" placeholder="e.g. Constantia, Cape Town" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
+        </div>
+      </div>
 
-            <button type="submit" id="submitBtn" 
-                class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i>
-                <span>Submit Request to Handlt</span>
-            </button>
-        </form>
-    </section>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Estimated Guest Count</label>
+          <input id="guest_count" type="number" placeholder="e.g. 150" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Venue Layout Environment</label>
+          <select id="indoor_outdoor" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition text-zinc-700">
+            <option value="">Indoor or Outdoor?</option>
+            <option>Indoor</option>
+            <option>Outdoor</option>
+          </select>
+        </div>
+      </div>
 
-    <footer class="bg-zinc-950 text-white py-12 text-center text-sm">
-        <p class="text-zinc-500 font-medium font-mono text-xs mb-2">EQUIPMENT CATALOGUE 2026 • HANDLT</p>
-    </footer>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Select Rental Core System Package</label>
+        <select id="selected_package" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition text-zinc-700">
+          <option value="">Select Package Base</option>
+          <option>Not sure - please recommend</option>
+          <option>Value Package 1 - R870/day</option>
+          <option>Value Package 2 - R1400/day</option>
+          <option>Value Package 3 - R1950/day</option>
+          <option>Pro Sound 1 - R1400/day</option>
+          <option>Pro Sound 2 - R2350/day</option>
+          <option>Premium System 2 - R2600/day</option>
+          <option>Church Package</option>
+          <option>Wedding Package</option>
+          <option>DJ Package</option>
+          <option>Corporate Package</option>
+        </select>
+      </div>
 
-    <script>
-        const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
-        const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
-        const supabaseClient = supabaseJs.createClient(supabaseUrl, supabaseKey);
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Budget Range Allocation</label>
+          <select id="budget_range" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition text-zinc-700">
+            <option value="">Select Budget Limit</option>
+            <option>Under R1,000</option>
+            <option>R1,000 - R2,500</option>
+            <option>R2,500 - R5,000</option>
+            <option>R5,000 - R10,000</option>
+            <option>R10,000+</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Delivery Needed</label>
+            <select id="delivery_required" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-sm font-semibold transition text-zinc-700">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Crew Setup Needed</label>
+            <select id="setup_required" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-sm font-semibold transition text-zinc-700">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-        async function handleQuoteSubmit(event) {
-            event.preventDefault();
-            
-            const submitButton = document.getElementById('submitBtn');
-            const whatsappNumber = document.getElementById('whatsapp_input').value;
-            const clientNotes = document.getElementById('notes_input').value;
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Specific Hardware Components Required</label>
+        <input id="equipment_required" placeholder="e.g. 2 Wireless Mics, Smoke Machine, Stage Lighting Par-Cans" class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition">
+      </div>
 
-            // Trigger visual loading mode
-            submitButton.disabled = true;
-            submitButton.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Sending to Cloud...</span>`;
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5">Additional Event Parameters / Extra Notes</label>
+        <textarea id="notes" rows="3" placeholder="Provide extra schedule information or setup timelines here..." class="w-full p-3 bg-zinc-50 border rounded-xl focus:outline-none focus:ring-2 focus:ring-black font-medium transition"></textarea>
+      </div>
 
-            // Ship data directly into the database row
-            const { data, error } = await supabaseClient
-                .from('client_requests')
-                .insert([
-                    { 
-                        whatsapp_number: whatsappNumber, 
-                        notes: clientNotes 
-                    }
-                ]);
+      <button id="submitBtn" type="submit" class="w-full bg-black text-white p-4 rounded-xl font-black uppercase tracking-wider hover:bg-zinc-900 transition flex items-center justify-center space-x-2">
+        <span>Submit Quote Request</span>
+      </button>
+    </form>
+  </main>
 
-            if (error) {
-                alert("Database Error: " + error.message);
-                console.error("Error Details:", error);
-                
-                submitButton.disabled = false;
-                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
-            } else {
-                alert("Success! Your event specifications have been sent to Handlt.");
-                document.getElementById('quoteForm').reset();
-                
-                submitButton.disabled = false;
-                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
-            }
-        }
-    </script>
+  <footer class="text-center p-6 text-sm text-zinc-500 font-medium border-t bg-white mt-12">
+    WhatsApp: +27 73 088 2155 | Instagram: @HANDLT_ZA | Email: handlit.za@gmail.com
+  </footer>
+
+  <script>
+    const supabaseUrl = "https://lfkssodbanjfamwpscja.supabase.co";
+    const supabaseKey = "sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG";
+    const db = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Dynamic extraction parsing utility for tracking incoming base pricing rules
+    function estimateValue(packageName) {
+        if (packageName.includes("870")) return 870;
+        if (packageName.includes("1400")) return 1400;
+        if (packageName.includes("1950")) return 1950;
+        if (packageName.includes("2350")) return 2350;
+        if (packageName.includes("2600")) return 2600;
+        return null;
+    }
+
+    document.getElementById("quoteForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Processing Pipeline...</span>`;
+
+      const selectedPkg = document.getElementById("selected_package").value;
+
+      const lead = {
+        full_name: document.getElementById("full_name").value,
+        whatsapp_number: document.getElementById("whatsapp_number").value,
+        email: document.getElementById("email").value || null,
+        event_date: document.getElementById("event_date").value || null,
+        event_type: document.getElementById("event_type").value || null,
+        location: document.getElementById("location").value || null,
+        guest_count: document.getElementById("guest_count").value ? Number(document.getElementById("guest_count").value) : null,
+        indoor_outdoor: document.getElementById("indoor_outdoor").value || null,
+        selected_package: selectedPkg || null,
+        delivery_required: document.getElementById("delivery_required").value,
+        setup_required: document.getElementById("setup_required").value,
+        equipment_required: document.getElementById("equipment_required").value || null,
+        budget_range: document.getElementById("budget_range").value || null,
+        notes: document.getElementById("notes").value || null,
+        quote_value: estimateValue(selectedPkg),
+        lead_source: 'Website',
+        status: "New"
+      };
+
+      const { error } = await db.from("client_requests").insert([lead]);
+
+      if (error) {
+        alert("Submission Failure: " + error.message);
+        console.error(error);
+      } else {
+        alert("Success! Your detailed event blueprint has been logged with HNDLT.");
+        document.getElementById("quoteForm").reset();
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = "<span>Submit Quote Request</span>";
+    });
+  </script>
 </body>
 </html>
