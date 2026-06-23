@@ -3,159 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HNDLT - Event Equipment Made Simple</title>
-    
+    <title>HNDLT - Equipment Catalogue & Calculator</title>
+    <!-- Tailwind CSS & FontAwesome Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
-        const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
-        const supabase = supabaseJs.createClient(supabaseUrl, supabaseKey);
-    </script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandBlack: '#111111',
-                        brandCharcoal: '#1C1C1C',
-                        brandGrey: '#F5F5F5',
-                        brandRed: '#E6392E',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #F5F5F5; }
-        .page-view { display: none; }
-        .page-view.active { display: block; }
-    </style>
+    <!-- Clean, production-ready Supabase Client Script Library -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-white text-brandBlack min-h-screen flex flex-col">
+<body class="bg-zinc-50 text-zinc-900 font-sans min-h-screen">
 
-    <nav class="bg-brandBlack text-white sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('home')">
-                <div class="bg-white text-black font-bold h-10 w-10 rounded-lg flex items-center justify-center text-xl relative">
-                    H<span class="absolute top-1 right-1 w-2 h-2 bg-black rounded-full border border-white"></span>
-                </div>
-                <span class="font-bold text-xl tracking-wider text-white">HNDLT</span>
+    <!-- Top Navigation Bar -->
+    <nav class="bg-zinc-950 text-white p-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2 font-bold tracking-wider text-xl">
+                <span class="bg-white text-black px-2 py-0.5 rounded text-lg">H</span>
+                <span>HNDLT</span>
             </div>
-            
-            <div class="flex items-center space-x-2 text-sm">
-                <button onclick="switchView('home')" class="px-2 py-1 rounded hover:bg-brandCharcoal font-medium">Home</button>
-                <button onclick="switchView('catalogue')" class="px-2 py-1 rounded hover:bg-brandCharcoal font-medium">Catalogue</button>
-                <button onclick="switchView('calculator')" class="px-2 py-1 rounded bg-brandRed text-white font-medium">Calculator</button>
+            <div class="space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-zinc-300 transition">Home</a>
+                <a href="#" class="hover:text-zinc-300 transition">Catalogue</a>
+                <a href="#calculator-section" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md shadow transition">Calculator</a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4">
-        
-        <div id="view-home" class="page-view active text-center py-12">
-            <h1 class="text-4xl font-bold mb-4">EQUIPMENT CATALOGUE 2026</h1>
-            <p class="text-zinc-500 max-w-md mx-auto mb-8">Sound • Lighting • DJ Equipment • Event Solutions</p>
-            <button onclick="switchView('catalogue')" class="bg-brandCharcoal text-white px-6 py-3 rounded-md font-semibold hover:bg-brandBlack shadow-md transition">Explore Equipment</button>
+    <!-- Hero Header -->
+    <header class="text-center py-16 bg-white border-b">
+        <h1 class="text-5xl font-black tracking-tight text-zinc-900 mb-4 uppercase">Equipment Catalogue 2026</h1>
+        <p class="text-zinc-500 font-medium tracking-wide text-lg">Sound • Lighting • DJ Equipment • Event Solutions</p>
+    </header>
+
+    <!-- Dynamic Calculator Submission Section -->
+    <section id="calculator-section" class="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl shadow-sm border">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-zinc-950 flex items-center space-x-2">
+                <i class="fa-solid fa-calculator text-red-600"></i>
+                <span>Request a Custom Quote</span>
+            </h2>
+            <p class="text-sm text-zinc-500 mt-1">Submit your specifications directly to our cloud database.</p>
         </div>
 
-        <div id="view-catalogue" class="page-view">
-            <h2 class="text-2xl font-bold mb-6 border-b pb-2">Our Sound & Lighting Gear</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white border rounded-xl overflow-hidden shadow-sm">
-                    <div class="p-4 bg-zinc-100 h-48 flex items-center justify-center text-zinc-400">
-                        <i class="fa-solid fa-volume-high text-5xl"></i>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg">Premium Sound System</h3>
-                        <p class="text-zinc-500 text-sm mt-1">High-fidelity active speakers perfect for weddings and club events.</p>
-                        <div class="mt-4 flex justify-between items-center">
-                            <span class="font-mono font-bold text-brandRed">Contact for Pricing</span>
-                            <button onclick="switchView('calculator')" class="text-sm bg-brandGrey px-3 py-1.5 rounded hover:bg-zinc-200 font-medium">Add to Calculator</button>
-                        </div>
-                    </div>
+        <form id="quoteForm" onsubmit="handleFormSubmit(event)" class="space-y-5">
+            <!-- WhatsApp Input Field -->
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">WhatsApp Contact Number</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
+                        <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
+                    </span>
+                    <input type="tel" id="whatsapp_input" required placeholder="+27 73 088 2155" 
+                        class="w-full pl-10 pr-4 py-3 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition">
                 </div>
             </div>
-        </div>
 
-        <div id="view-calculator" class="page-view">
-            <h2 class="text-2xl font-bold mb-4">Event Cost Calculator</h2>
-            <p class="text-sm text-zinc-500 mb-6">Estimate your equipment needs and save your quote straight to our desk.</p>
-            
-            <div class="bg-brandGrey p-6 rounded-xl border max-w-md">
-                <form id="quoteForm" onsubmit="handleQuoteSubmit(event)">
-                    <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">WhatsApp Number</label>
-                    <input type="tel" id="clientPhone" required placeholder="+27 73 088 2155" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:border-brandRed">
-                    
-                    <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">Additional Notes / Equipment Requests</label>
-                    <textarea id="clientNotes" rows="3" placeholder="Tell us about your event..." class="w-full p-3 border rounded-lg mb-6 focus:outline-none focus:border-brandRed"></textarea>
-                    
-                    <button type="submit" class="w-full bg-brandRed text-white py-3 rounded-lg font-bold uppercase tracking-wide hover:bg-red-700 transition">Submit Request to Handlt</button>
-                </form>
+            <!-- Notes Input Field -->
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Equipment Requirements / Event Notes</label>
+                <textarea id="notes_input" required rows="4" placeholder="Mention the equipment you need (e.g., sound speakers, stage lighting) and event dates..." 
+                    class="w-full p-4 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition"></textarea>
             </div>
-        </div>
 
-    </main>
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" 
+                class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i>
+                <span>Submit Request to Handlt</span>
+            </button>
+        </form>
+    </section>
 
-    <footer class="bg-brandCharcoal text-zinc-400 text-xs py-8 mt-12 border-t border-zinc-800">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
-            <div>
-                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> WHATSAPP</span>
-                <a href="https://wa.me/27730882155" target="_blank" class="hover:text-white">+27 73 088 2155</a>
-            </div>
-            <div>
-                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-instagram text-pink-500 mr-1"></i> INSTAGRAM</span>
-                <a href="https://instagram.com/HANDLT_ZA" target="_blank" class="hover:text-white">@HANDLT_ZA</a>
-            </div>
-            <div>
-                <span class="block text-white font-bold mb-1"><i class="fa-brands fa-tiktok text-white mr-1"></i> TIKTOK</span>
-                <a href="https://tiktok.com/@HANDLT_ZA" target="_blank" class="hover:text-white">@HANDLT_ZA</a>
-            </div>
-            <div>
-                <span class="block text-white font-bold mb-1"><i class="fa-solid fa-envelope text-brandRed mr-1"></i> EMAIL</span>
-                <a href="mailto:handlit.za@gmail.com" class="hover:text-white">handlit.za@gmail.com</a>
-            </div>
-        </div>
-        <div class="text-center mt-8 text-[11px] text-zinc-600 font-mono">
-            EQUIPMENT CATALOGUE 2026 • HANDLT
-        </div>
+    <!-- Footer Summary Information -->
+    <footer class="bg-zinc-950 text-white py-12 text-center text-sm">
+        <p class="text-zinc-500 font-medium font-mono text-xs mb-2">EQUIPMENT CATALOGUE 2026 • HANDLT</p>
     </footer>
 
+    <!-- Complete Database Submission Logic -->
     <script>
-        function switchView(viewId) {
-            // Hide all views
-            document.querySelectorAll('.page-view').forEach(view => {
-                view.classList.remove('active');
-            });
-            // Show selected view
-            document.getElementById('view-' + viewId).classList.add('active');
-            // Scroll to top automatically
-            window.scrollTo(0, 0);
-        }
+        // Securely connecting with your Supabase Production credentials
+        const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
+        const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
+        const supabase = supabaseJs.createClient(supabaseUrl, supabaseKey);
 
-        // Handle sending the client data directly to your Supabase project backend
-        async function handleQuoteSubmit(e) {
-            e.preventDefault();
+        async function handleFormSubmit(event) {
+            event.preventDefault();
             
-            const phone = document.getElementById('clientPhone').value;
-            const notes = document.getElementById('clientNotes').value;
+            const submitButton = document.getElementById('submitBtn');
+            const whatsappNumber = document.getElementById('whatsapp_input').value;
+            const clientNotes = document.getElementById('notes_input').value;
 
-            // Push directly to your live Supabase Table
+            // Instantly transition the button UI state to visual loading mode
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Sending to Cloud...</span>`;
+
+            // Insert data array using your fixed underscore column mappings
             const { data, error } = await supabase
                 .from('client_requests')
-                .insert([{ whatsapp_number: phone, notes: notes }]);
+                .insert([
+                    { 
+                        whatsapp_number: whatsappNumber, 
+                        notes: clientNotes 
+                    }
+                ]);
 
             if (error) {
-                console.error("Database connection failure:", error);
-                alert("Submission failed. Make sure your database table named 'client_requests' is created inside Supabase!");
+                alert("Database Submission Error: " + error.message);
+                console.error("Supabase Error Details:", error);
+                
+                // Reset button state on failure so they can try again
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
             } else {
                 alert("Success! Your event specifications have been sent to Handlt.");
                 document.getElementById('quoteForm').reset();
-                switchView('home');
+                
+                // Return button to default layout style
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
             }
         }
     </script>
