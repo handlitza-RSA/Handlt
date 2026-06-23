@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HNDLT - Equipment Catalogue & Calculator</title>
-    <!-- Tailwind CSS & FontAwesome Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Clean, production-ready Supabase Client Script Library -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-zinc-50 text-zinc-900 font-sans min-h-screen">
 
-    <!-- Top Navigation Bar -->
     <nav class="bg-zinc-950 text-white p-4 shadow-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2 font-bold tracking-wider text-xl">
@@ -27,13 +24,11 @@
         </div>
     </nav>
 
-    <!-- Hero Header -->
     <header class="text-center py-16 bg-white border-b">
         <h1 class="text-5xl font-black tracking-tight text-zinc-900 mb-4 uppercase">Equipment Catalogue 2026</h1>
         <p class="text-zinc-500 font-medium tracking-wide text-lg">Sound • Lighting • DJ Equipment • Event Solutions</p>
     </header>
 
-    <!-- Dynamic Calculator Submission Section -->
     <section id="calculator-section" class="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl shadow-sm border">
         <div class="mb-6">
             <h2 class="text-2xl font-bold text-zinc-950 flex items-center space-x-2">
@@ -43,8 +38,7 @@
             <p class="text-sm text-zinc-500 mt-1">Submit your specifications directly to our cloud database.</p>
         </div>
 
-        <form id="quoteForm" onsubmit="handleFormSubmit(event)" class="space-y-5">
-            <!-- WhatsApp Input Field -->
+        <form id="quoteForm" onsubmit="handleQuoteSubmit(event)" class="space-y-5">
             <div>
                 <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">WhatsApp Contact Number</label>
                 <div class="relative">
@@ -56,14 +50,12 @@
                 </div>
             </div>
 
-            <!-- Notes Input Field -->
             <div>
                 <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Equipment Requirements / Event Notes</label>
-                <textarea id="notes_input" required rows="4" placeholder="Mention the equipment you need (e.g., sound speakers, stage lighting) and event dates..." 
+                <textarea id="notes_input" required rows="4" placeholder="Mention the equipment you need and event dates..." 
                     class="w-full p-4 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition"></textarea>
             </div>
 
-            <!-- Submit Button -->
             <button type="submit" id="submitBtn" 
                 class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
                 <i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i>
@@ -72,31 +64,29 @@
         </form>
     </section>
 
-    <!-- Footer Summary Information -->
     <footer class="bg-zinc-950 text-white py-12 text-center text-sm">
         <p class="text-zinc-500 font-medium font-mono text-xs mb-2">EQUIPMENT CATALOGUE 2026 • HANDLT</p>
     </footer>
 
-    <!-- Complete Database Submission Logic -->
     <script>
-        // Securely connecting with your Supabase Production credentials
+        // SINGLE declaration for connection credentials
         const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
         const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
-        const supabase = supabaseJs.createClient(supabaseUrl, supabaseKey);
+        const supabaseConnection = supabaseJs.createClient(supabaseUrl, supabaseKey);
 
-        async function handleFormSubmit(event) {
+        async function handleQuoteSubmit(event) {
             event.preventDefault();
             
             const submitButton = document.getElementById('submitBtn');
             const whatsappNumber = document.getElementById('whatsapp_input').value;
             const clientNotes = document.getElementById('notes_input').value;
 
-            // Instantly transition the button UI state to visual loading mode
+            // Change button state to loading mode
             submitButton.disabled = true;
             submitButton.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Sending to Cloud...</span>`;
 
-            // Insert data array using your fixed underscore column mappings
-            const { data, error } = await supabase
+            // Insert directly into your renamed client_requests table
+            const { data, error } = await supabaseConnection
                 .from('client_requests')
                 .insert([
                     { 
@@ -106,17 +96,15 @@
                 ]);
 
             if (error) {
-                alert("Database Submission Error: " + error.message);
-                console.error("Supabase Error Details:", error);
+                alert("Database Error: " + error.message);
+                console.error("Details:", error);
                 
-                // Reset button state on failure so they can try again
                 submitButton.disabled = false;
                 submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
             } else {
                 alert("Success! Your event specifications have been sent to Handlt.");
                 document.getElementById('quoteForm').reset();
                 
-                // Return button to default layout style
                 submitButton.disabled = false;
                 submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
             }
