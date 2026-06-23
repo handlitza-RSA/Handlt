@@ -3,110 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handlt - Admin Dashboard</title>
+    <title>HNDLT - Equipment Catalogue & Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-zinc-50 text-zinc-900 font-sans min-h-screen">
+
+    <nav class="bg-zinc-950 text-white p-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2 font-bold tracking-wider text-xl">
+                <span class="bg-white text-black px-2 py-0.5 rounded text-lg">H</span>
+                <span>HNDLT</span>
+            </div>
+            <div class="space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-zinc-300 transition">Home</a>
+                <a href="#" class="hover:text-zinc-300 transition">Catalogue</a>
+                <a href="#calculator-section" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md shadow transition">Calculator</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="text-center py-16 bg-white border-b">
+        <h1 class="text-5xl font-black tracking-tight text-zinc-900 mb-4 uppercase">Equipment Catalogue 2026</h1>
+        <p class="text-zinc-500 font-medium tracking-wide text-lg">Sound • Lighting • DJ Equipment • Event Solutions</p>
+    </header>
+
+    <section id="calculator-section" class="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl shadow-sm border">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-zinc-950 flex items-center space-x-2">
+                <i class="fa-solid fa-calculator text-red-600"></i>
+                <span>Request a Custom Quote</span>
+            </h2>
+            <p class="text-sm text-zinc-500 mt-1">Submit your specifications directly to our cloud database.</p>
+        </div>
+
+        <form id="quoteForm" onsubmit="handleQuoteSubmit(event)" class="space-y-5">
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">WhatsApp Contact Number</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
+                        <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
+                    </span>
+                    <input type="tel" id="whatsapp_input" required placeholder="+27 73 088 2155" 
+                        class="w-full pl-10 pr-4 py-3 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">Equipment Requirements / Event Notes</label>
+                <textarea id="notes_input" required rows="4" placeholder="Mention the equipment you need and event dates..." 
+                    class="w-full p-4 bg-zinc-50 border rounded-xl focus:ring-2 focus:ring-zinc-950 focus:outline-none font-medium transition"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" 
+                class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i>
+                <span>Submit Request to Handlt</span>
+            </button>
+        </form>
+    </section>
+
+    <footer class="bg-zinc-950 text-white py-12 text-center text-sm">
+        <p class="text-zinc-500 font-medium font-mono text-xs mb-2">EQUIPMENT CATALOGUE 2026 • HANDLT</p>
+    </footer>
+
     <script>
         const supabaseUrl = 'https://lfkssodbanjfamwpscja.supabase.co';
         const supabaseKey = 'sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG';
-        const supabase = supabaseJs.createClient(supabaseUrl, supabaseKey);
-    </script>
-</head>
-<body class="bg-zinc-100 font-sans min-h-screen flex">
+        const supabaseClient = supabaseJs.createClient(supabaseUrl, supabaseKey);
 
-    <aside class="w-64 bg-zinc-950 text-white flex flex-col shadow-xl">
-        <div class="p-5 border-b border-zinc-800 flex items-center space-x-3">
-            <div class="bg-white text-black font-bold h-8 w-8 rounded flex items-center justify-center text-md">H</div>
-            <span class="font-bold tracking-wider text-lg">HANDLT ADMIN</span>
-        </div>
-        <nav class="flex-grow p-4 space-y-2">
-            <a href="#" class="flex items-center space-x-3 bg-zinc-800 text-white p-3 rounded-lg font-medium transition">
-                <i class="fa-solid fa-list-check w-5 text-red-500"></i>
-                <span>Client Inquiries</span>
-            </a>
-        </nav>
-        <div class="p-4 border-t border-zinc-800 text-xs text-zinc-500 font-mono text-center">
-            Handlt Dashboard v1.0
-        </div>
-    </aside>
-
-    <main class="flex-grow p-8">
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-zinc-900">Inbound Requests</h1>
-                <p class="text-sm text-zinc-500">Real-time incoming client calculator entries from your live portal.</p>
-            </div>
-            <button onclick="fetchRequests()" class="bg-white border text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-50 shadow-sm flex items-center space-x-2 transition">
-                <i class="fa-solid fa-arrow-rotate-right"></i> <span>Refresh Data</span>
-            </button>
-        </header>
-
-        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-zinc-50 border-b text-zinc-400 text-xs font-bold uppercase tracking-wider">
-                        <th class="p-4">Submission Date</th>
-                        <th class="p-4">WhatsApp Contact</th>
-                        <th class="p-4">Equipment Requirements / Notes</th>
-                        <th class="p-4 text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="submissionsTableBody" class="text-zinc-700 text-sm font-medium">
-                    <tr>
-                        <td colspan="4" class="p-8 text-center text-zinc-400 font-mono">Loading data from Supabase cloud database...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-    <script>
-        async function fetchRequests() {
-            const tableBody = document.getElementById('submissionsTableBody');
+        async function handleQuoteSubmit(event) {
+            event.preventDefault();
             
-            // Query data directly from your client_requests table
-            const { data, error } = await supabase
+            const submitButton = document.getElementById('submitBtn');
+            const whatsappNumber = document.getElementById('whatsapp_input').value;
+            const clientNotes = document.getElementById('notes_input').value;
+
+            // Trigger visual loading mode
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Sending to Cloud...</span>`;
+
+            // Ship data directly into the database row
+            const { data, error } = await supabaseClient
                 .from('client_requests')
-                .select('*')
-                .order('created_at', { ascending: false });
+                .insert([
+                    { 
+                        whatsapp_number: whatsappNumber, 
+                        notes: clientNotes 
+                    }
+                ]);
 
             if (error) {
-                console.error("Fetch failed:", error);
-                tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-red-500 font-mono">Error: Make sure your table is named 'client_requests' in your Supabase console.</td></tr>`;
-                return;
-            }
-
-            if (!data || data.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-zinc-400 font-mono">No customer requests found in database yet.</td></tr>`;
-                return;
-            }
-
-            // Clear table row placeholders
-            tableBody.innerHTML = '';
-
-            // Map database columns to UI components dynamically
-            data.forEach(row => {
-                const date = new Date(row.created_at).toLocaleString();
-                const phone = row.whatsapp_number || 'N/A';
-                const notes = row.notes || 'No notes left by user.';
+                alert("Database Error: " + error.message);
+                console.error("Error Details:", error);
                 
-                const tr = document.createElement('tr');
-                tr.className = "border-b hover:bg-zinc-50 transition";
-                tr.innerHTML = `
-                    <td class="p-4 text-zinc-500 font-mono text-xs">${date}</td>
-                    <td class="p-4 font-bold text-zinc-900">${phone}</td>
-                    <td class="p-4 max-w-md text-zinc-600">${notes}</td>
-                    <td class="p-4 text-center">
-                        <span class="bg-amber-50 border border-amber-200 text-amber-700 text-xs px-2.5 py-1 rounded-full font-semibold">New Entry</span>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
+            } else {
+                alert("Success! Your event specifications have been sent to Handlt.");
+                document.getElementById('quoteForm').reset();
+                
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane text-sm text-zinc-400"></i> <span>Submit Request to Handlt</span>`;
+            }
         }
-
-        // Run fetch execution on window mount
-        window.onload = fetchRequests;
     </script>
 </body>
 </html>
