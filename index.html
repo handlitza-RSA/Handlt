@@ -1,665 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HNDLT | Event Equipment Rentals</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
-  <meta name="description" content="HNDLT event equipment rentals: sound, lighting, DJ gear, projectors, power and packages for events across South Africa." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            hBlack: '#0f0f10',
-            hCharcoal: '#1f1f22',
-            hGrey: '#f4f4f5',
-            hMid: '#71717a',
-            hRed: '#ef3b33'
-          },
-          boxShadow: {
-            soft: '0 12px 35px rgba(0,0,0,0.08)'
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    html { scroll-behavior: smooth; }
-    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .page { display: none; }
-    .page.active { display: block; }
-    .step { display: none; }
-    .step.active { display: block; }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    .logo-img[src=""], .logo-img:not([src]) { display: none; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F5E6CA">
+  <meta name="description" content="HandlT makes event setup simple. Choose your event type and get a quote for sound, lighting, decor and essentials in under 60 seconds.">
+  <link rel="preload" href="assets/handlt-logo.png" as="image">
+  <title>HandlT | You bring the crowd. We&rsquo;ll HandlT.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-white text-hBlack min-h-screen">
+<body class="home">
+  <div class="page-shell">
+    <div class="announcement" role="banner"><span aria-hidden="true">&#10024;</span><span>Cape Town events made simple. <button type="button" data-open-quote>Get a quote in under 60 seconds.</button></span></div>
+    <header class="topbar" aria-label="Main header">
+      <button class="icon-button" type="button" aria-label="Open menu" aria-controls="site-menu" aria-expanded="false" data-open-menu>
+        <span class="menu-lines" aria-hidden="true"><span></span></span>
+      </button>
+      <a class="brand" href="index.html" aria-label="HandlT home"><img src="assets/handlt-logo.png" alt="HandlT"></a>
+    </header>
 
-  <header class="sticky top-0 z-50 bg-hBlack text-white border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-      <button onclick="goToPage('home')" class="flex items-center gap-3 text-left shrink-0" aria-label="Go to HNDLT home">
-  <img src="logo.png" alt="HNDLT logo" class="logo-img h-14 md:h-16 w-auto max-w-[190px] object-contain bg-white rounded-2xl p-2" onerror="this.style.display='none'">
-</button>
+    <main class="landing" id="main">
+      <section class="hero-copy" aria-labelledby="hero-title">
+        <h1 class="hero-title" id="hero-title">You bring the crowd.<br><span class="accent">We&rsquo;ll HandlT.</span></h1>
+        <p class="hero-subtitle">Sound, lighting, decor and event essentials for birthdays, weddings, corporate events, religious gatherings and more.</p>
+        <div class="section-kicker" aria-label="Choose what you are planning">
+          <span>What are you planning?</span>
+          <span>Tap one</span>
+        </div>
+      </section>
 
-      <nav class="hidden lg:flex items-center gap-2 text-sm font-bold">
-        <button data-nav="home" onclick="goToPage('home')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Home</button>
-        <button data-nav="quote" onclick="startQuote()" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Get a Quote</button>
-        <button data-nav="packages" onclick="goToPage('packages')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Packages</button>
-        <button data-nav="equipment" onclick="goToPage('equipment')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Equipment</button>
-        <button data-nav="terms" onclick="goToPage('terms')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Terms</button>
-        <button data-nav="contact" onclick="goToPage('contact')" class="nav-btn px-4 py-2 rounded-xl hover:bg-white/10">Contact</button>
-      </nav>
+      <section class="event-grid" aria-label="Popular event types">
+        <button class="event-card" type="button" data-event="Birthday" data-open-quote><span class="card-art" aria-hidden="true"><img src="assets/birthday-collage.svg" alt=""></span><span class="card-footer"><span class="card-title">Birthday</span><span class="card-arrow" aria-hidden="true">&rarr;</span></span></button>
+        <button class="event-card" type="button" data-event="Wedding" data-open-quote><span class="card-art" aria-hidden="true"><img src="assets/wedding-collage.svg" alt=""></span><span class="card-footer"><span class="card-title">Wedding</span><span class="card-arrow" aria-hidden="true">&rarr;</span></span></button>
+        <button class="event-card" type="button" data-event="Corporate" data-open-quote><span class="card-art" aria-hidden="true"><img src="assets/corporate-collage.svg" alt=""></span><span class="card-footer"><span class="card-title">Corporate</span><span class="card-arrow" aria-hidden="true">&rarr;</span></span></button>
+        <button class="event-card" type="button" data-event="Religious" data-open-quote><span class="card-art" aria-hidden="true"><img src="assets/religious-collage.svg" alt=""></span><span class="card-footer"><span class="card-title">Religious</span><span class="card-arrow" aria-hidden="true">&rarr;</span></span></button>
+        <button class="event-card" type="button" data-event="Other" data-open-quote><span class="card-art" aria-hidden="true"><img src="assets/other-collage.svg" alt=""></span><span class="card-footer"><span class="card-title">Other</span><span class="card-arrow" aria-hidden="true">&rarr;</span></span></button>
+      </section>
 
-      <div class="flex items-center gap-2">
-        <a href="https://wa.me/27730882155" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-white text-hBlack px-4 py-2.5 rounded-xl font-black hover:bg-zinc-200">
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp
-        </a>
-        <button onclick="toggleMobileMenu()" class="lg:hidden h-11 w-11 rounded-xl bg-white/10 flex items-center justify-center">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+      <section class="quote-inline" aria-label="Get a quote">
+        <button class="primary-cta" type="button" data-open-quote>Get my quote</button>
+        <p class="cta-helper">Quick form. No confusion. We&rsquo;ll guide you.</p>
+      </section>
+    </main>
+
+    <section class="trust-strip" aria-label="Reviews and social proof">
+      <div class="trust-copy">
+        <span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <strong>Real setups. Real events. Real feedback.</strong>
       </div>
+      <a href="reviews.html">View reviews</a>
+    </section>
+  </div>
+
+  <a class="floating-chat" href="https://wa.me/27730882155?text=Hi%20HandlT%2C%20I%20need%20help%20with%20an%20event%20quote." target="_blank" rel="noopener" aria-label="Chat to HandlT on WhatsApp"><img src="assets/chat-bubble.svg" alt=""></a>
+
+  <div class="drawer-scrim" data-close-menu></div>
+  <aside class="drawer" id="site-menu" aria-label="HandlT menu" aria-hidden="true">
+    <div class="drawer-head">
+      <img class="drawer-logo" src="assets/handlt-logo.png" alt="HandlT">
+      <button class="close-button" type="button" aria-label="Close menu" data-close-menu>&times;</button>
     </div>
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-white/10 px-4 py-3 grid grid-cols-2 gap-2 text-sm font-bold">
-      <button onclick="goToPage('home'); toggleMobileMenu(false)" class="p-3 bg-white/5 rounded-xl">Home</button>
-      <button onclick="startQuote(); toggleMobileMenu(false)" class="p-3 bg-white text-hBlack rounded-xl">Get Quote</button>
-      <button onclick="goToPage('packages'); toggleMobileMenu(false)" class="p-3 bg-white/5 rounded-xl">Packages</button>
-      <button onclick="goToPage('equipment'); toggleMobileMenu(false)" class="p-3 bg-white/5 rounded-xl">Equipment</button>
-      <button onclick="goToPage('terms'); toggleMobileMenu(false)" class="p-3 bg-white/5 rounded-xl">Terms</button>
-      <button onclick="goToPage('contact'); toggleMobileMenu(false)" class="p-3 bg-white/5 rounded-xl">Contact</button>
+
+    <p class="drawer-section-title">What are you planning?</p>
+    <nav class="menu-list" aria-label="Service navigation">
+      <a class="menu-item" href="quote.html?event=Birthday"><span class="menu-thumb"><img src="assets/birthday-collage.svg" alt=""></span><span class="menu-text"><strong>Birthday Events</strong><span>Party setup made simple</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="quote.html?event=Wedding"><span class="menu-thumb"><img src="assets/wedding-collage.svg" alt=""></span><span class="menu-text"><strong>Wedding Setups</strong><span>Clean decor and support</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="quote.html?event=Corporate"><span class="menu-thumb"><img src="assets/corporate-collage.svg" alt=""></span><span class="menu-text"><strong>Corporate Events</strong><span>Sound, screens and setup</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="quote.html?event=Religious"><span class="menu-thumb"><img src="assets/religious-collage.svg" alt=""></span><span class="menu-text"><strong>Religious Gatherings</strong><span>Respectful community setup</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="services.html#sound"><span class="menu-thumb"><img src="assets/sound-collage.svg" alt=""></span><span class="menu-text"><strong>Sound &amp; Lighting</strong><span>Speakers, mics and lights</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="services.html#decor"><span class="menu-thumb"><img src="assets/wedding-collage.svg" alt=""></span><span class="menu-text"><strong>Decor &amp; Setup</strong><span>Styling and on-site setup</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="services.html#tables"><span class="menu-thumb"><img src="assets/other-collage.svg" alt=""></span><span class="menu-text"><strong>Tables &amp; Chairs</strong><span>Seating and table basics</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="services.html#delivery"><span class="menu-thumb"><img src="assets/other-collage.svg" alt=""></span><span class="menu-text"><strong>Delivery &amp; Collection</strong><span>We drop off and collect</span></span><span class="menu-item-arrow">&rarr;</span></a>
+    </nav>
+
+    <p class="drawer-section-title">More</p>
+    <nav class="menu-list" aria-label="More navigation">
+      <a class="menu-item" href="reviews.html"><span class="menu-thumb"><img src="assets/reviews-star.svg" alt=""></span><span class="menu-text"><strong>Reviews</strong><span>Real setups and feedback</span></span><span class="menu-item-arrow">&rarr;</span></a>
+      <a class="menu-item" href="contact.html"><span class="menu-thumb"><img src="assets/chat-bubble.svg" alt=""></span><span class="menu-text"><strong>Contact HandlT</strong><span>WhatsApp, email and socials</span></span><span class="menu-item-arrow">&rarr;</span></a>
+    </nav>
+
+    <div class="drawer-contact">
+      <strong>HandlT</strong>
+      WhatsApp: +27 73 088 2155<br>
+      IG: @HANDLT_ZA<br>
+      TikTok: @HANDLT_ZA<br>
+      Email: handlit.za@gmail.com
     </div>
-  </header>
+  </aside>
 
-  <main>
-    <section id="page-home" class="page active">
-      <div class="bg-hBlack text-white">
-        <div class="max-w-7xl mx-auto px-4 py-20 md:py-28 text-center">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-black tracking-widest text-zinc-300 mb-8">
-            <span class="h-2 w-2 rounded-full bg-white"></span> EVENT EQUIPMENT RENTALS - SOUTH AFRICA
-          </div>
-          <h1 class="text-4xl md:text-7xl font-black tracking-tight max-w-5xl mx-auto leading-tight">
-            Event Equipment <span class="text-hRed">Made Simple</span>
-          </h1>
-          <p class="text-zinc-300 text-lg md:text-xl max-w-3xl mx-auto mt-6 leading-relaxed">
-            Sound, lighting, DJ gear and event solutions for private functions, weddings, churches, corporate events and community gatherings.
-          </p>
-          <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
-            <button onclick="startQuote()" class="px-8 py-4 rounded-2xl bg-hRed text-white font-black text-lg shadow-soft hover:opacity-90">
-              Get a Quote <i class="fa-solid fa-arrow-right ml-2"></i>
-            </button>
-            <button onclick="goToPage('packages')" class="px-8 py-4 rounded-2xl bg-white/10 border border-white/10 text-white font-black text-lg hover:bg-white/15">
-              View Packages
-            </button>
-            <a href="https://wa.me/27730882155" target="_blank" class="px-8 py-4 rounded-2xl bg-white text-hBlack font-black text-lg hover:bg-zinc-200">
-              WhatsApp Us
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="max-w-7xl mx-auto px-4 py-16">
-        <div class="text-center mb-10">
-          <h2 class="text-3xl md:text-5xl font-black">What We Offer</h2>
-          <p class="text-hMid text-lg mt-3">Professional equipment for every type of event.</p>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6">
-          <button onclick="goToPage('equipment', 'Audio Packages')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-volume-high text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">Sound Systems</h3><p class="text-hMid">Speakers, subwoofers, mixers and speech-ready audio packages.</p>
-          </button>
-          <button onclick="goToPage('equipment', 'Lighting')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-lightbulb text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">Lighting</h3><p class="text-hMid">Moving heads, LED bars, UV lights and complete light rigs.</p>
-          </button>
-          <button onclick="goToPage('equipment', 'DJ Equipment')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-sliders text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">DJ Equipment</h3><p class="text-hMid">Pioneer controllers, DJ booths, tables and event accessories.</p>
-          </button>
-          <button onclick="goToPage('packages'); filterPackages('Church Service')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-church text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">Church & Speech</h3><p class="text-hMid">Clear vocal systems, wireless microphones and reliable mixers.</p>
-          </button>
-          <button onclick="goToPage('packages'); filterPackages('Wedding')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-heart text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">Weddings & Events</h3><p class="text-hMid">Elegant sound, lighting and effects for unforgettable celebrations.</p>
-          </button>
-          <button onclick="goToPage('packages'); filterPackages('Corporate Meeting')" class="home-card text-left bg-hGrey rounded-3xl p-8 border hover:shadow-soft transition">
-            <i class="fa-solid fa-briefcase text-3xl mb-6"></i><h3 class="font-black text-2xl mb-3">Corporate & Brands</h3><p class="text-hMid">Professional AV setups, projectors and clean presentation systems.</p>
-          </button>
-        </div>
-      </div>
-
-      <div class="bg-hBlack text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-          <h2 class="text-3xl md:text-5xl font-black">How It Works</h2>
-          <p class="text-zinc-400 mt-3 text-lg">Three simple steps to your event equipment.</p>
-          <div class="grid md:grid-cols-3 gap-8 mt-12">
-            <div class="p-6"><div class="h-16 w-16 rounded-full bg-white text-hBlack mx-auto flex items-center justify-center font-black text-2xl mb-5">1</div><h3 class="font-black text-2xl">Choose Your Event</h3><p class="text-zinc-400 mt-3">Select your event type, guest count and venue style.</p></div>
-            <div class="p-6"><div class="h-16 w-16 rounded-full bg-white text-hBlack mx-auto flex items-center justify-center font-black text-2xl mb-5">2</div><h3 class="font-black text-2xl">Get Your Estimate</h3><p class="text-zinc-400 mt-3">The calculator recommends packages and shows a clear total.</p></div>
-            <div class="p-6"><div class="h-16 w-16 rounded-full bg-white text-hBlack mx-auto flex items-center justify-center font-black text-2xl mb-5">3</div><h3 class="font-black text-2xl">Submit & Confirm</h3><p class="text-zinc-400 mt-3">Your request goes to HNDLT and we contact you on WhatsApp.</p></div>
-          </div>
-          <button onclick="startQuote()" class="mt-10 px-8 py-4 bg-hRed rounded-2xl font-black text-lg">Start Your Quote</button>
-        </div>
-      </div>
-
-      <div class="max-w-7xl mx-auto px-4 py-16">
-        <h2 class="text-center text-3xl md:text-5xl font-black mb-10">Why Choose HNDLT?</h2>
-        <div class="grid md:grid-cols-4 gap-5 text-center">
-          <div class="bg-hGrey rounded-3xl p-8 border"><i class="fa-solid fa-receipt text-2xl mb-4"></i><h3 class="font-black text-xl">Transparent Pricing</h3><p class="text-hMid mt-3">See the estimate before you submit.</p></div>
-          <div class="bg-hGrey rounded-3xl p-8 border"><i class="fa-solid fa-shield-heart text-2xl mb-4"></i><h3 class="font-black text-xl">Quality Equipment</h3><p class="text-hMid mt-3">Professional gear and clear package options.</p></div>
-          <div class="bg-hGrey rounded-3xl p-8 border"><i class="fa-solid fa-layer-group text-2xl mb-4"></i><h3 class="font-black text-xl">Flexible Packages</h3><p class="text-hMid mt-3">From small gatherings to larger events.</p></div>
-          <div class="bg-hGrey rounded-3xl p-8 border"><i class="fa-brands fa-whatsapp text-2xl mb-4"></i><h3 class="font-black text-xl">Fast Support</h3><p class="text-hMid mt-3">Reach us quickly on WhatsApp.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-packages" class="page max-w-7xl mx-auto px-4 py-12">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+  <div class="modal-scrim" data-modal hidden>
+    <section class="quote-panel" role="dialog" aria-modal="true" aria-labelledby="quote-title">
+      <div class="quote-head">
         <div>
-          <h1 class="text-4xl md:text-5xl font-black">Recommended Packages</h1>
-          <p class="text-hMid mt-3 text-lg">Choose by event type. Every quote is still subject to availability.</p>
+          <p>Event quote</p>
+          <h2 id="quote-title">Tell us what you need.</h2>
         </div>
-        <button onclick="startQuote()" class="bg-hBlack text-white px-6 py-4 rounded-2xl font-black">Build My Quote</button>
-      </div>
-      <div id="packageFilters" class="flex gap-2 overflow-x-auto scrollbar-hide pb-4 mb-6"></div>
-      <div id="packagesGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
-    </section>
-
-    <section id="page-equipment" class="page max-w-7xl mx-auto px-4 py-12">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
-        <div>
-          <h1 class="text-4xl md:text-5xl font-black">Equipment Catalogue</h1>
-          <p class="text-hMid mt-3 text-lg">Browse HNDLT daily hire guide prices.</p>
-        </div>
-        <button onclick="startQuote()" class="bg-hRed text-white px-6 py-4 rounded-2xl font-black">Get a Quote</button>
-      </div>
-      <div class="bg-white border rounded-3xl p-4 shadow-soft mb-6">
-        <div class="flex items-center gap-3">
-          <i class="fa-solid fa-magnifying-glass text-hMid"></i>
-          <input id="equipmentSearch" oninput="renderEquipment()" placeholder="Search equipment..." class="w-full p-3 outline-none text-lg" />
-        </div>
-      </div>
-      <div id="equipmentFilters" class="flex gap-2 overflow-x-auto scrollbar-hide pb-4 mb-8"></div>
-      <div id="equipmentGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </section>
-
-    <section id="page-quote" class="page max-w-4xl mx-auto px-4 py-12">
-      <div class="mb-8">
-        <h1 class="text-4xl md:text-5xl font-black">Get a Quote</h1>
-        <p class="text-hMid mt-3 text-lg">Simple step-by-step calculator. Final booking is confirmed by HNDLT on WhatsApp.</p>
+        <button class="close-button" type="button" aria-label="Close quote form" data-close-quote>&times;</button>
       </div>
 
-      <div class="bg-hGrey border rounded-3xl p-4 mb-8 overflow-x-auto scrollbar-hide">
-        <div id="stepBadges" class="flex gap-2 min-w-max"></div>
-      </div>
-
-      <div id="step1" class="step active bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">1. Choose event type</h2>
-        <p class="text-hMid mb-6">This helps us recommend the right setup.</p>
-        <div id="eventGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-      </div>
-
-      <div id="step2" class="step bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">2. Event details</h2>
-        <p class="text-hMid mb-6">Guest count and venue style help calculate a better estimate.</p>
-        <div class="space-y-5">
-          <div>
-            <label class="font-black block mb-2">Guest count</label>
-            <input id="guestCount" type="number" min="1" value="100" class="w-full bg-hGrey border rounded-2xl p-4 text-lg font-black" oninput="updateQuote()">
+        <form class="form-grid" data-quote-form>
+          <div class="form-row two">
+            <label>Event type
+              <select class="input" name="eventType" required>
+                <option value="">Choose one</option>
+                <option>Birthday</option>
+                <option>Wedding</option>
+                <option>Corporate</option>
+                <option>Religious</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>Event date
+              <input class="input" type="date" name="eventDate" required>
+            </label>
           </div>
-          <div>
-            <label class="font-black block mb-2">Indoor or outdoor?</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button id="btnIndoor" onclick="setIndoorOutdoor('Indoor')" class="choice-btn p-4 rounded-2xl border font-black bg-hBlack text-white">Indoor</button>
-              <button id="btnOutdoor" onclick="setIndoorOutdoor('Outdoor')" class="choice-btn p-4 rounded-2xl border font-black bg-white">Outdoor</button>
+
+          <div class="form-row two">
+            <label>Area / location
+              <input class="input" name="location" autocomplete="address-level2" placeholder="Cape Town, venue, area" required>
+            </label>
+            <label>Guests
+              <input class="input" type="number" name="guests" min="1" placeholder="80" required>
+            </label>
+          </div>
+
+          <fieldset class="checkbox-group">
+            <legend>What do you need?</legend>
+            <div class="check-pills">
+              <label class="check-pill"><input type="checkbox" name="needs" value="Sound"><span>Sound</span></label>
+              <label class="check-pill"><input type="checkbox" name="needs" value="Lighting"><span>Lighting</span></label>
+              <label class="check-pill"><input type="checkbox" name="needs" value="Decor"><span>Decor</span></label>
+              <label class="check-pill"><input type="checkbox" name="needs" value="Tables"><span>Tables</span></label>
+              <label class="check-pill"><input type="checkbox" name="needs" value="Chairs"><span>Chairs</span></label>
+              <label class="check-pill"><input type="checkbox" name="needs" value="Delivery"><span>Delivery</span></label>
             </div>
+          </fieldset>
+
+          <div class="form-row two">
+            <label>Name
+              <input class="input" name="name" autocomplete="name" placeholder="Your name" required>
+            </label>
+            <label>WhatsApp number
+              <input class="input" name="phone" inputmode="tel" autocomplete="tel" placeholder="073 088 2155" required>
+            </label>
           </div>
-          <div>
-            <label class="font-black block mb-2">Main need</label>
-            <div class="grid grid-cols-2 gap-3">
-              <button id="btnSpeech" onclick="setFocus('Speech')" class="choice-btn p-4 rounded-2xl border font-black bg-white">Speech / Vocals</button>
-              <button id="btnMusic" onclick="setFocus('Music')" class="choice-btn p-4 rounded-2xl border font-black bg-hBlack text-white">Music / DJ</button>
-            </div>
+
+          <div class="form-row">
+            <label>Extra notes
+              <textarea class="input" name="notes" placeholder="Tell us the vibe, venue, timing or what you already have."></textarea>
+            </label>
           </div>
-        </div>
-        <div class="flex justify-between mt-8">
-          <button onclick="prevStep()" class="px-6 py-3 rounded-2xl border font-black">Back</button>
-          <button onclick="nextStep()" class="px-6 py-3 rounded-2xl bg-hBlack text-white font-black">Next</button>
-        </div>
-      </div>
 
-      <div id="step3" class="step bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">3. Recommended packages</h2>
-        <p class="text-hMid mb-6">Choose one package or continue with no package.</p>
-        <div id="recommendations" class="space-y-4"></div>
-        <div class="flex justify-between mt-8">
-          <button onclick="prevStep()" class="px-6 py-3 rounded-2xl border font-black">Back</button>
-          <button onclick="nextStep()" class="px-6 py-3 rounded-2xl bg-hBlack text-white font-black">Next</button>
-        </div>
-      </div>
-
-      <div id="step4" class="step bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">4. Optional upgrades</h2>
-        <p class="text-hMid mb-6">Add extra microphones, lighting, projectors or power.</p>
-        <div id="upgradeList" class="grid sm:grid-cols-2 gap-3 max-h-[480px] overflow-y-auto pr-1"></div>
-        <div class="flex justify-between mt-8">
-          <button onclick="prevStep()" class="px-6 py-3 rounded-2xl border font-black">Back</button>
-          <button onclick="nextStep()" class="px-6 py-3 rounded-2xl bg-hBlack text-white font-black">Next</button>
-        </div>
-      </div>
-
-      <div id="step5" class="step bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">5. Services & logistics</h2>
-        <p class="text-hMid mb-6">These costs protect setup time, preparation and event support.</p>
-        <div class="space-y-3" id="serviceOptions"></div>
-        <div class="flex justify-between mt-8">
-          <button onclick="prevStep()" class="px-6 py-3 rounded-2xl border font-black">Back</button>
-          <button onclick="nextStep()" class="px-6 py-3 rounded-2xl bg-hBlack text-white font-black">Next</button>
-        </div>
-      </div>
-
-      <div id="step6" class="step bg-white border rounded-3xl p-6 shadow-soft">
-        <h2 class="text-2xl font-black mb-2">6. Your details</h2>
-        <p class="text-hMid mb-6">Submit the request so HNDLT can confirm availability.</p>
-        <div id="quoteSummary" class="bg-hBlack text-white rounded-3xl p-6 mb-6"></div>
-        <form id="quoteForm" class="space-y-4">
-          <div class="grid md:grid-cols-2 gap-4">
-            <div><label class="font-black block mb-2">Full name *</label><input id="fullName" required class="w-full bg-hGrey border rounded-2xl p-4"></div>
-            <div><label class="font-black block mb-2">WhatsApp number *</label><input id="whatsappNumber" required class="w-full bg-hGrey border rounded-2xl p-4" placeholder="+27 73 088 2155"></div>
-            <div><label class="font-black block mb-2">Phone number</label><input id="phoneNumber" class="w-full bg-hGrey border rounded-2xl p-4"></div>
-            <div><label class="font-black block mb-2">Email</label><input id="email" type="email" class="w-full bg-hGrey border rounded-2xl p-4"></div>
-            <div><label class="font-black block mb-2">Event date *</label><input id="eventDate" required type="date" class="w-full bg-hGrey border rounded-2xl p-4"></div>
-            <div><label class="font-black block mb-2">Venue / location *</label><input id="location" required class="w-full bg-hGrey border rounded-2xl p-4" placeholder="Area or venue name"></div>
-            <div><label class="font-black block mb-2">Budget range</label><input id="budgetRange" class="w-full bg-hGrey border rounded-2xl p-4" placeholder="Example: R3000 - R5000"></div>
-            <div><label class="font-black block mb-2">Extra notes</label><textarea id="notes" rows="2" class="w-full bg-hGrey border rounded-2xl p-4" placeholder="Time, access, venue rules, special requests"></textarea></div>
+          <div class="file-row" aria-label="Optional uploads">
+            <label class="file-tile">Inspiration photo<input type="file" name="inspiration" accept="image/*"></label>
+            <label class="file-tile">Venue photo<input type="file" name="venue" accept="image/*"></label>
           </div>
-          <label class="flex items-start gap-3 text-sm text-hMid bg-hGrey border rounded-2xl p-4">
-            <input type="checkbox" required class="mt-1 h-5 w-5 accent-hBlack">
-            <span>I agree that HNDLT may contact me about this quote request. I understand the estimate is subject to availability and final confirmation.</span>
-          </label>
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <button type="button" onclick="prevStep()" class="sm:w-1/4 px-6 py-4 rounded-2xl border font-black">Back</button>
-            <button id="submitQuoteBtn" type="submit" class="sm:w-3/4 px-6 py-4 rounded-2xl bg-hRed text-white font-black text-lg">Submit Quote Request</button>
+
+          <div class="form-actions">
+            <button class="primary-cta" type="submit">Get my quote</button>
+            <p class="form-note">This opens WhatsApp with your details ready to send. You can attach your photos there too.</p>
           </div>
         </form>
-      </div>
 
-      <div id="step7" class="step bg-white border rounded-3xl p-8 shadow-soft text-center">
-        <div class="h-20 w-20 rounded-full bg-hBlack text-white mx-auto flex items-center justify-center text-3xl mb-6"><i class="fa-solid fa-check"></i></div>
-        <h2 class="text-3xl font-black">Thank you. HNDLT received your request.</h2>
-        <p class="text-hMid max-w-xl mx-auto mt-4">We will review your event details and contact you on WhatsApp. You can also send the quote summary to us now.</p>
-        <div class="max-w-sm mx-auto grid gap-3 mt-8">
-          <button onclick="openWhatsAppSummary()" class="bg-hBlack text-white rounded-2xl p-4 font-black"><i class="fa-brands fa-whatsapp mr-2"></i>Send Summary on WhatsApp</button>
-          <button onclick="goToPage('home')" class="bg-hGrey border rounded-2xl p-4 font-black">Back to Home</button>
+        <div class="success-box" data-success>
+          <strong>Thanks, we&rsquo;ve got your event details.</strong>
+          The HandlT team will contact you shortly with the best setup options. WhatsApp should already be open with your message ready &mdash; just hit send.
+          <a href="https://wa.me/27730882155" target="_blank" rel="noopener" data-whatsapp-summary>Open WhatsApp again</a>
         </div>
-      </div>
-
-      <div id="floatingTotal" class="sticky bottom-4 mt-8 bg-hBlack text-white rounded-3xl p-5 shadow-soft flex items-center justify-between gap-4">
-        <div>
-          <div class="text-zinc-400 text-sm">Estimated total</div>
-          <div class="text-xs text-zinc-500">Delivery finalised by admin</div>
-        </div>
-        <div class="text-3xl font-black">R<span id="floatingTotalAmount">150</span></div>
-      </div>
     </section>
+  </div>
 
-    <section id="page-contact" class="page max-w-5xl mx-auto px-4 py-12">
-      <div class="bg-hGrey border rounded-3xl p-8 md:p-12">
-        <h1 class="text-4xl md:text-5xl font-black mb-4">Contact HNDLT</h1>
-        <p class="text-hMid text-lg mb-8">For quick support, WhatsApp is best.</p>
-        <div class="grid md:grid-cols-2 gap-4">
-          <a class="contact-card bg-white border rounded-3xl p-6 font-black hover:shadow-soft" href="https://wa.me/27730882155" target="_blank"><i class="fa-brands fa-whatsapp mr-3"></i> +27 73 088 2155</a>
-          <a class="contact-card bg-white border rounded-3xl p-6 font-black hover:shadow-soft" href="mailto:handlit.za@gmail.com"><i class="fa-solid fa-envelope mr-3"></i> handlit.za@gmail.com</a>
-          <a class="contact-card bg-white border rounded-3xl p-6 font-black hover:shadow-soft" href="https://instagram.com/HANDLT_ZA" target="_blank"><i class="fa-brands fa-instagram mr-3"></i> @HANDLT_ZA</a>
-          <a class="contact-card bg-white border rounded-3xl p-6 font-black hover:shadow-soft" href="https://tiktok.com/@HANDLT_ZA" target="_blank"><i class="fa-brands fa-tiktok mr-3"></i> @HANDLT_ZA</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-terms" class="page max-w-5xl mx-auto px-4 py-12">
-      <h1 class="text-4xl md:text-5xl font-black mb-4">Terms & Conditions</h1>
-      <p class="text-hMid mb-8">Simple hire terms for HNDLT quote requests and bookings.</p>
-      <div class="bg-hGrey border rounded-3xl p-6 md:p-8 leading-relaxed text-zinc-700">
-        <ol class="list-decimal pl-5 space-y-3">
-          <li>Quotes and bookings are subject to availability.</li>
-          <li>Booking is only confirmed once a deposit or agreed payment is received.</li>
-          <li>Prices are daily hire rates unless stated otherwise.</li>
-          <li>Delivery, setup, collection and transport may be charged separately depending on location, timing, access and event requirements.</li>
-          <li>Late collections, late returns or extended use may attract additional charges.</li>
-          <li>Client is responsible for safe access, parking, loading area and venue permissions.</li>
-          <li>Equipment remains property of HNDLT or the supplying partner at all times.</li>
-          <li>Client is responsible for loss, theft, damage, water damage, power surge damage, misuse or negligent handling while equipment is hired.</li>
-          <li>Outdoor events require suitable weather protection. Equipment must not be exposed to rain, moisture, sand, dust or unsafe conditions.</li>
-          <li>HNDLT may refuse setup where the venue, electrical supply, weather or safety conditions are unsafe.</li>
-          <li>Power supply must be stable and suitable for the equipment. Generator hire is available where needed.</li>
-          <li>Cancellations may result in deposit forfeiture, especially close to event date.</li>
-          <li>Date changes are subject to availability.</li>
-          <li>HNDLT is not responsible for delays caused by traffic, venue restrictions, load shedding, unsafe access or client changes outside our control.</li>
-          <li>Client must check all equipment on delivery/setup and report issues immediately.</li>
-          <li>No equipment may be moved, opened, altered, rewired or repaired by the client or third parties without permission.</li>
-          <li>Prices may change without notice before a booking is confirmed.</li>
-          <li>Final package recommendations depend on event size, venue type, indoor/outdoor use, music type and guest count.</li>
-          <li>HNDLT may substitute equipment with equal or better alternatives if required.</li>
-          <li>By booking, the client accepts these terms.</li>
-        </ol>
-      </div>
-    </section>
-  </main>
-
-  <footer class="bg-hBlack text-white mt-16">
-    <div class="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8">
-      <div><div class="font-black text-2xl tracking-widest mb-4">HNDLT</div><p class="text-zinc-400">Event equipment made simple. Sound, lighting, DJ gear and event solutions across South Africa.</p></div>
-      <div><h3 class="font-black mb-4">Quick Links</h3><div class="grid gap-2 text-zinc-400"><button onclick="startQuote()" class="text-left hover:text-white">Get a Quote</button><button onclick="goToPage('packages')" class="text-left hover:text-white">Packages</button><button onclick="goToPage('equipment')" class="text-left hover:text-white">Equipment</button><button onclick="goToPage('terms')" class="text-left hover:text-white">Terms & Conditions</button><a href="admin.html" class="hover:text-white">Admin Login</a></div></div>
-      <div><h3 class="font-black mb-4">Contact</h3><div class="grid gap-2 text-zinc-400"><a href="mailto:handlit.za@gmail.com">handlit.za@gmail.com</a><a href="https://wa.me/27730882155" target="_blank">WhatsApp: +27 73 088 2155</a><a href="https://instagram.com/HANDLT_ZA" target="_blank">Instagram: @HANDLT_ZA</a><a href="https://tiktok.com/@HANDLT_ZA" target="_blank">TikTok: @HANDLT_ZA</a></div></div>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 py-6 border-t border-white/10 text-center text-xs text-zinc-500">© 2026 HNDLT. All rights reserved. All quotes are subject to availability.</div>
-  </footer>
-
-<script>
-const SUPABASE_URL = "https://lfkssodbanjfamwpscja.supabase.co";
-const SUPABASE_KEY = "sb_publishable_5v0yi1RUIc0fhOSBVRiYmg_rCAHZzQG";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const money = value => Math.round(Number(value || 0)).toLocaleString('en-ZA');
-
-const equipment = [
-  {id:'ap1',cat:'Audio Packages',name:'Value Package 1',price:870,orig:650,desc:'2 Hybrid 15 inch active speakers with stands, 5/6 channel mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'ap2',cat:'Audio Packages',name:'Value Package 2',price:1400,orig:1050,desc:'2 Hybrid 15 inch active speakers, mixer, corded mic with stand, Alto Professional TS15 1200W subwoofer, AUX leads, 1 party light.'},
-  {id:'ap3',cat:'Audio Packages',name:'Value Package 3',price:1950,orig:1450,desc:'2 Hybrid 15 inch top speakers, 2 Alto 1200W subwoofers, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'ps1',cat:'Audio Packages',name:'Pro Sound 1',price:1400,orig:1050,desc:'2 Audiocenter MA12+ 1600W active speakers with stands, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'ps2',cat:'Audio Packages',name:'Pro Sound 2',price:2350,orig:1750,desc:'2 Audiocenter MA12+ active speakers, Pioneer XPRS15 2400W bass bin, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'ps3',cat:'Audio Packages',name:'Pro Sound 3',price:3300,orig:2450,desc:'2 Audiocenter MA12+ tops, 2 Pioneer XPRS15 bass bins, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'prem1',cat:'Audio Packages',name:'Premium System 1',price:1670,orig:1250,desc:'2 Audiocenter GT512 2200W active speakers with stands, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'prem2',cat:'Audio Packages',name:'Premium System 2',price:2600,orig:1950,desc:'2 Audiocenter GT512 active speakers, Pioneer XPRS15 2400W bass bin, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'prem3',cat:'Audio Packages',name:'Premium System 3',price:3550,orig:2650,desc:'2 Audiocenter GT512 tops, 2 Pioneer XPRS15 subs, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'alt1',cat:'Audio Packages',name:'Altium System 1',price:1550,orig:1150,desc:'2 Altium 15 1000W active speakers with stands, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'alt2',cat:'Audio Packages',name:'Altium System 2',price:2470,orig:1850,desc:'2 Altium 15 active speakers, Altium 18 bass bin 2400W, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'alt3',cat:'Audio Packages',name:'Altium System 3',price:3400,orig:2550,desc:'2 Altium 15 top speakers, 2 Altium 18 bass bins, mixer, corded mic with stand, AUX leads, 1 party light.'},
-  {id:'ca1',cat:'Column Array Systems',name:'Filo Pro Column Array',price:1070,orig:800,desc:'1200W Filo Pro column array tower with built-in mixer and Bluetooth.'},
-  {id:'ca2',cat:'Column Array Systems',name:'Filo Pro Column Array Rig',price:2150,orig:1600,desc:'2 Filo Pro column array towers with built-in mixers.'},
-  {id:'ca3',cat:'Column Array Systems',name:'HK Polar 12 Column Array',price:1200,orig:900,desc:'Top-end HK Polar 12 2000W column array with built-in mixer and Bluetooth.'},
-  {id:'ca4',cat:'Column Array Systems',name:'HK Polar 12 Column Array Rig',price:2400,orig:1800,desc:'2 HK Polar 12 systems for clean corporate and premium event sound.'},
-  {id:'cpa1',cat:'Compact PA Systems',name:'Samson XP150 Compact PA System',price:870,orig:650,desc:'Compact PA system with speakers, mixer, Bluetooth, corded mic and stand.'},
-  {id:'cpa2',cat:'Compact PA Systems',name:'Samson XP208 Rechargeable Portable PA',price:600,orig:450,desc:'Rechargeable portable PA with mixer, Bluetooth, wireless mic and reverb.'},
-  {id:'mix1',cat:'Audio Mixers',name:'Alto 5 Channel Mixer',price:70,orig:50,desc:'Compact mixer for small audio setups.'},
-  {id:'mix2',cat:'Audio Mixers',name:'Wharfedale Compact Mixer',price:70,orig:50,desc:'Compact mixer for simple audio routing.'},
-  {id:'mix3',cat:'Audio Mixers',name:'Powerworks 7 Channel Mixer',price:135,orig:100,desc:'7 channel mixer for small events.'},
-  {id:'mix4',cat:'Audio Mixers',name:'Yamaha MG14XU Mixer',price:135,orig:100,desc:'14 channel mixer with effects for larger speech/music setups.'},
-  {id:'mix5',cat:'Audio Mixers',name:'Allen & Heath ZED6 Mixer',price:135,orig:100,desc:'Compact professional mixer.'},
-  {id:'mix6',cat:'Audio Mixers',name:'Powerworks 14 Channel Mixer',price:270,orig:200,desc:'14 channel mixer for larger input needs.'},
-  {id:'mic1',cat:'Microphones',name:'Long Pro Digital UHF 6 Mic Receiver Unit',price:135,orig:100,desc:'UHF receiver unit for multiple microphone setup.'},
-  {id:'mic2',cat:'Microphones',name:'Samson R21 Corded Microphone',price:70,orig:50,desc:'Basic corded microphone.'},
-  {id:'mic3',cat:'Microphones',name:'Shure SM58 Corded Microphone',price:170,orig:125,desc:'Industry standard vocal microphone.'},
-  {id:'mic4',cat:'Microphones',name:'AKG 7 Piece Drum Microphone Set',price:660,orig:495,desc:'Professional drum microphone set.'},
-  {id:'mic5',cat:'Microphones',name:'Handheld Cordless Microphone Single',price:135,orig:100,desc:'Single wireless handheld microphone.'},
-  {id:'mic6',cat:'Microphones',name:'Handheld Cordless Microphone Dual',price:270,orig:200,desc:'Dual wireless handheld microphones.'},
-  {id:'mic7',cat:'Microphones',name:'Hybrid Professional Cordless Microphones Set of 4',price:800,orig:600,desc:'Set of 4 professional wireless microphones.'},
-  {id:'mic8',cat:'Microphones',name:'Hybrid+ Diversity Wireless Microphone Set',price:1070,orig:800,desc:'True diversity cordless microphone set.'},
-  {id:'dj1',cat:'DJ Equipment',name:'Pioneer XDJ-RX3',price:1600,orig:1200,desc:'All-in-one Pioneer DJ system.'},
-  {id:'dj2',cat:'DJ Equipment',name:'Pioneer DDJ-FLX4 Controller',price:600,orig:450,desc:'Compact Pioneer DJ controller.'},
-  {id:'dj3',cat:'DJ Equipment',name:'Pro DJ Booth Black Stretch Surround',price:470,orig:350,desc:'Professional black DJ booth surround.'},
-  {id:'dj4',cat:'DJ Equipment',name:'Pro DJ Booth White Surround',price:470,orig:350,desc:'Professional white DJ booth surround.'},
-  {id:'dja1',cat:'DJ Accessories',name:'DJ Table',price:200,orig:150,desc:'DJ table with adjustable legs.'},
-  {id:'dja2',cat:'DJ Accessories',name:'Heavy Duty Black Skirt',price:70,orig:50,desc:'Heavy-duty black skirt add-on.'},
-  {id:'dja3',cat:'DJ Accessories',name:'DJ Wrap',price:135,orig:100,desc:'4-panel DJ wrap.'},
-  {id:'dja4',cat:'DJ Accessories',name:'Totem Speaker or Light Stand',price:135,orig:100,desc:'Totem for lights or speaker placement.'},
-  {id:'dja5',cat:'DJ Accessories',name:'LED Totem / Uplighter',price:200,orig:150,desc:'LED totem can be used as uplighter.'},
-  {id:'lt1',cat:'Lighting',name:'Moving Head RGB LED',price:135,orig:100,desc:'Moving head RGB LED light.'},
-  {id:'lt2',cat:'Lighting',name:'RGB LED Can',price:70,orig:50,desc:'RGB LED par can.'},
-  {id:'lt3',cat:'Lighting',name:'Mushroom Light',price:70,orig:50,desc:'Party mushroom effect light.'},
-  {id:'lt4',cat:'Lighting',name:'HSF Stage Effect Light',price:135,orig:100,desc:'Stage effect light.'},
-  {id:'lt5',cat:'Lighting',name:'UV Light 9 LED',price:100,orig:75,desc:'UV light with 9 LEDs.'},
-  {id:'lt6',cat:'Lighting',name:'UV Light 18 LED',price:200,orig:150,desc:'UV light with 18 LEDs.'},
-  {id:'lt7',cat:'Lighting',name:'Hybrid HSF 12.4 LED Bar with DMX',price:200,orig:150,desc:'DMX LED bar.'},
-  {id:'lt8',cat:'Lighting',name:'T-Bar Light Stand',price:70,orig:50,desc:'T-bar stand for lighting.'},
-  {id:'lt9',cat:'Lighting',name:'HSF 12.4 RGBW Professional Stage Spot',price:135,orig:100,desc:'Professional RGBW stage spot.'},
-  {id:'lt10',cat:'Lighting',name:'HSF 12.4 Professional Stage Spot with UV',price:200,orig:150,desc:'Professional stage spot with UV.'},
-  {id:'lt11',cat:'Lighting',name:'Flame Effect Light',price:100,orig:75,desc:'Flame effect light.'},
-  {id:'lt12',cat:'Lighting',name:'Chauvet 4Bar with Tripod and Foot Control',price:470,orig:350,desc:'Chauvet 4Bar lighting system with tripod and foot control.'},
-  {id:'lt13',cat:'Lighting',name:'Chauvet 4Play Moonflower with Tripod Stand',price:400,orig:300,desc:'Chauvet moonflower lighting effect.'},
-  {id:'lt14',cat:'Lighting',name:'Chauvet DJ Complete Light Rig',price:1070,orig:800,desc:'Complete Chauvet DJ light rig.'},
-  {id:'lt15',cat:'Lighting',name:'Hybrid Professional Moving Head',price:1000,orig:750,desc:'Professional moving head with case/controller options.'},
-  {id:'lt16',cat:'Lighting',name:'Hybrid Professional Moving Heads Set of 2',price:1870,orig:1400,desc:'Set of 2 moving heads in flight case.'},
-  {id:'lt17',cat:'Lighting',name:'Chauvet Gobo Zoom LED 2.0',price:135,orig:100,desc:'Gobo zoom LED effect light.'},
-  {id:'fx1',cat:'Special Effects',name:'Smoke Machine Including Full Tank',price:270,orig:200,desc:'Smoke machine with full tank.'},
-  {id:'fx2',cat:'Special Effects',name:'High Output Smoke Machine Including Full Tank',price:335,orig:250,desc:'High-output smoke machine.'},
-  {id:'fx3',cat:'Special Effects',name:'Bubble Machine Including Full Bubble Fluid',price:200,orig:150,desc:'Bubble machine with full bubble fluid.'},
-  {id:'fx4',cat:'Special Effects',name:'Double Smoke and Bubble Combo Machine',price:670,orig:500,desc:'Smoke and bubble combo machine.'},
-  {id:'fx5',cat:'Special Effects',name:'Hazer Including Full Tank',price:470,orig:350,desc:'Hazer with full tank.'},
-  {id:'fx6',cat:'Special Effects',name:'Hybrid Professional Low Fogger Including Full Tank',price:1000,orig:750,desc:'Low fogger for wedding cloud effect.'},
-  {id:'vis1',cat:'Visual Equipment',name:'Epson U04 Full HD Projector',price:670,orig:500,desc:'Epson U04 full HD projector.'},
-  {id:'vis2',cat:'Visual Equipment',name:'ViewSonic Full HD Projector',price:670,orig:500,desc:'ViewSonic full HD projector.'},
-  {id:'vis3',cat:'Visual Equipment',name:'1.5m Tripod Projector Screen',price:70,orig:50,desc:'1.5m tripod screen add-on.'},
-  {id:'vis4',cat:'Visual Equipment',name:'2.4m Tripod Projector Screen',price:135,orig:100,desc:'2.4m tripod screen add-on.'},
-  {id:'vis5',cat:'Visual Equipment',name:'150 Inch 16:10 Dual Sided Projector Screen',price:270,orig:200,desc:'150 inch dual-sided projector screen.'},
-  {id:'mus1',cat:'Musical Equipment',name:'SP4200 88 Key Stage Piano',price:600,orig:450,desc:'88 key stage piano with stand, seat and sustain pedal.'},
-  {id:'pwr1',cat:'Power Solutions',name:'1.8kW Inverter Generator',price:535,orig:400,desc:'1.8kW inverter generator, low noise.'},
-  {id:'pwr2',cat:'Power Solutions',name:'3.2kW Inverter Generator',price:935,orig:700,desc:'3.2kW inverter generator, low noise.'},
-  {id:'pwr3',cat:'Power Solutions',name:'Red-E Battery Pack 500W / 615Wh',price:135,orig:100,desc:'Red-E battery pack suitable for small PA systems.'},
-  {id:'fur1',cat:'Furniture',name:'1.8m Folding Table',price:70,orig:50,desc:'1.8m folding table, seats up to 8.'},
-  {id:'fur2',cat:'Furniture',name:'White Plastic Chair with Armrests',price:15,orig:10,desc:'White plastic chair with armrests.'}
-];
-
-const packages = [
-  {id:'basic_speech',name:'Basic Speech Package',types:['Funeral','Church Service','Corporate Meeting','Community Event'],guests:'20 - 80',min:1,max:80,price:870,items:['2 Hybrid 15 inch active speakers','1 mixer','1 corded microphone','1 microphone stand'],desc:'Clear speech delivery for small gatherings.'},
-  {id:'standard_speech',name:'Standard Speech Package',types:['Funeral','Church Service','Corporate Meeting','Corporate Conference'],guests:'50 - 150',min:50,max:150,price:1270,items:['2 Hybrid 15 inch active speakers','1 mixer','2 wireless microphones','2 microphone stands'],desc:'Speech system with wireless freedom.'},
-  {id:'church',name:'Church Package',types:['Church Service','Church Conference'],guests:'100 - 300',min:100,max:300,price:2800,items:['2 Audiocenter MA12+ speakers','Yamaha MG14XU mixer','4 wireless microphones','2 corded microphones','Speaker stands'],desc:'Professional worship and church event sound.'},
-  {id:'church_conf',name:'Church Conference Package',types:['Church Conference'],guests:'200 - 500',min:200,max:500,price:3500,items:['2 Audiocenter GT512 speakers','Yamaha MG14XU mixer','Hybrid diversity wireless system','Multiple microphones','Stage lighting'],desc:'Large church event and conference setup.'},
-  {id:'wedding_basic',name:'Wedding Basic Package',types:['Wedding','Engagement','Private Function'],guests:'50 - 120',min:50,max:120,price:2050,items:['Value Package 2','Chauvet 4Bar lighting','Wireless microphone'],desc:'Clean wedding sound and lighting.'},
-  {id:'wedding_premium',name:'Wedding Premium Package',types:['Wedding','Engagement','Private Function'],guests:'100 - 250',min:100,max:250,price:4950,items:['Premium System 2','Chauvet DJ complete light rig','Hybrid professional low fogger','Wireless microphones'],desc:'Premium wedding and reception package.'},
-  {id:'dj_party',name:'DJ Party Package',types:['Birthday Party','DJ Event','Private Function','Year End Function'],guests:'50 - 150',min:50,max:150,price:3300,items:['Pioneer DDJ-FLX4','Pro DJ Booth','Value Package 3','Moving head lights'],desc:'Complete DJ party setup.'},
-  {id:'pro_dj',name:'Pro DJ Package',types:['DJ Event','Festival','Live Performance','Year End Function'],guests:'150 - 500',min:150,max:500,price:7100,items:['Pioneer XDJ-RX3','Pro DJ Booth','Premium System 3','Chauvet DJ light rig','Moving heads'],desc:'Professional DJ setup for larger events.'},
-  {id:'corporate',name:'Corporate Package',types:['Corporate Meeting','Product Launch','Brand Activation'],guests:'30 - 200',min:30,max:200,price:2200,items:['HK Polar 12 Column Array','Wireless microphone','Projector','Projection screen'],desc:'Clean professional corporate audio-visual.'},
-  {id:'corp_conf',name:'Corporate Conference Package',types:['Corporate Conference','Product Launch'],guests:'100 - 500',min:100,max:500,price:4200,items:['HK Polar 12 rig','Yamaha MG14XU mixer','Multiple wireless microphones','Epson projector','Large projection screen'],desc:'Full conference AV solution.'},
-  {id:'school',name:'School Function Package',types:['School Function','Community Event'],guests:'100 - 300',min:100,max:300,price:3100,items:['Pro Sound 2','Wireless microphones','Basic lighting'],desc:'Reliable sound for school events.'},
-  {id:'activation',name:'Brand Activation Package',types:['Brand Activation','Product Launch','Community Event'],guests:'50 - 250',min:50,max:250,price:2200,items:['HK Polar 12','Wireless microphone','LED totems','Projector'],desc:'Eye-catching brand activation setup.'},
-  {id:'festival',name:'Festival Package',types:['Festival','Live Performance','Community Event'],guests:'300 - 1000+',min:300,max:1500,price:6500,items:['Premium System 3','Multiple moving heads','Smoke machines','DJ booth'],desc:'Large event baseline package. Final quote required.'}
-];
-
-const eventTypes = ['Birthday Party','Wedding','Engagement','Church Service','Church Conference','Funeral','Corporate Meeting','Corporate Conference','School Function','Sports Event','Brand Activation','Product Launch','Community Event','Festival','Live Performance','DJ Event','Private Function','Year End Function'];
-
-const iconFor = (text) => {
-  if (text.includes('Wedding') || text.includes('Engagement')) return 'fa-heart';
-  if (text.includes('Church')) return 'fa-church';
-  if (text.includes('Corporate') || text.includes('Brand') || text.includes('Product')) return 'fa-briefcase';
-  if (text.includes('DJ') || text.includes('Festival') || text.includes('Performance')) return 'fa-sliders';
-  if (text.includes('Funeral')) return 'fa-hands-praying';
-  if (text.includes('School')) return 'fa-school';
-  if (text.includes('Birthday')) return 'fa-cake-candles';
-  return 'fa-calendar-day';
-};
-
-let selectedEquipmentCategory = 'All';
-let selectedPackageType = 'All';
-let currentStep = 1;
-let quote = {
-  eventType:'', guestCount:100, indoorOutdoor:'Indoor', focus:'Music', packageId:'', upgrades:[],
-  services:{delivery:false, setup:false, soundcheck:false, outdoor:false, late:false, planning:false, technician:false}
-};
-let lastSubmittedSummary = '';
-
-function toggleMobileMenu(force) {
-  const menu = document.getElementById('mobileMenu');
-  if (force === false) menu.classList.add('hidden'); else menu.classList.toggle('hidden');
-}
-
-function goToPage(page, category) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('bg-white','text-hBlack'));
-  const active = document.querySelector(`[data-nav="${page}"]`);
-  if (active) active.classList.add('bg-white','text-hBlack');
-  if (page === 'equipment' && category) { selectedEquipmentCategory = category; renderEquipment(); }
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-function buildUI() {
-  buildPackageFilters(); renderPackages(); buildEquipmentFilters(); renderEquipment(); buildEventGrid(); buildStepBadges(); buildUpgradeList(); buildServiceOptions(); updateQuote();
-}
-
-function buildPackageFilters() {
-  const filters = ['All', ...eventTypes];
-  document.getElementById('packageFilters').innerHTML = filters.map(f => `<button onclick="filterPackages('${f}')" id="pkgFilter-${cssId(f)}" class="filter-pkg px-5 py-3 rounded-xl border font-black whitespace-nowrap ${f==='All'?'bg-hBlack text-white':'bg-white'}">${f}</button>`).join('');
-}
-function filterPackages(type) { selectedPackageType = type; renderPackages(); }
-
-function renderPackages() {
-  document.querySelectorAll('.filter-pkg').forEach(b=>b.classList.remove('bg-hBlack','text-white'));
-  const btn = document.getElementById('pkgFilter-' + cssId(selectedPackageType)); if(btn) btn.classList.add('bg-hBlack','text-white');
-  const visible = packages.filter(p => selectedPackageType === 'All' || p.types.includes(selectedPackageType));
-  document.getElementById('packagesGrid').innerHTML = visible.map(p => packageCard(p, true)).join('') || emptyCard('No package found for this filter.');
-}
-
-function packageCard(p, includeButton=false) {
-  return `<article class="bg-white border rounded-3xl p-6 shadow-soft flex flex-col">
-    <div class="flex items-start justify-between gap-4"><div><h3 class="text-2xl font-black">${p.name}</h3><p class="text-hMid mt-2">${p.desc}</p></div><i class="fa-solid ${iconFor(p.types[0])} text-2xl"></i></div>
-    <div class="mt-5 text-hMid"><i class="fa-solid fa-users mr-2"></i>${p.guests} guests</div>
-    <div class="text-hRed text-4xl font-black mt-5">R${money(p.price)}<span class="text-base text-hMid font-normal"> /day</span></div>
-    <div class="text-sm italic text-hMid mt-3">Suitable for: ${p.types.slice(0,3).join(', ')}</div>
-    <div class="border-t my-5"></div>
-    <ul class="space-y-3 flex-1">${p.items.map(item => `<li><i class="fa-solid fa-check mr-3"></i>${item}</li>`).join('')}</ul>
-    ${includeButton ? `<button onclick="choosePackageFromCard('${p.id}')" class="mt-8 bg-hBlack text-white rounded-2xl p-4 font-black">Get a Quote</button>` : ''}
-  </article>`;
-}
-
-function choosePackageFromCard(id) { quote.packageId = id; startQuote(3); }
-
-function buildEquipmentFilters() {
-  const cats = ['All', ...new Set(equipment.map(e=>e.cat))];
-  document.getElementById('equipmentFilters').innerHTML = cats.map(c => `<button onclick="selectEquipmentCategory('${c}')" id="equipFilter-${cssId(c)}" class="equip-filter px-5 py-3 rounded-xl border font-black whitespace-nowrap ${c==='All'?'bg-hBlack text-white':'bg-white'}">${c}</button>`).join('');
-}
-function selectEquipmentCategory(cat){ selectedEquipmentCategory = cat; renderEquipment(); }
-function renderEquipment(){
-  document.querySelectorAll('.equip-filter').forEach(b=>b.classList.remove('bg-hBlack','text-white'));
-  const btn = document.getElementById('equipFilter-' + cssId(selectedEquipmentCategory)); if(btn) btn.classList.add('bg-hBlack','text-white');
-  const search = (document.getElementById('equipmentSearch')?.value || '').toLowerCase();
-  const visible = equipment.filter(e => (selectedEquipmentCategory==='All'||e.cat===selectedEquipmentCategory) && (`${e.name} ${e.cat} ${e.desc}`.toLowerCase().includes(search)));
-  document.getElementById('equipmentGrid').innerHTML = visible.map(e => `<article class="bg-white border rounded-3xl p-6 shadow-soft"><div class="text-xs font-black text-hMid uppercase">${e.cat}</div><h3 class="text-xl font-black mt-3">${e.name}</h3><div class="text-hRed text-3xl font-black mt-4">R${money(e.price)}<span class="text-sm text-hMid font-normal"> /day</span></div><p class="text-hMid mt-4">${e.desc}</p><button onclick="addUpgradeFromEquipment('${e.id}')" class="mt-5 w-full bg-hBlack text-white rounded-2xl p-3 font-black">Add to Quote</button></article>`).join('') || emptyCard('No equipment found.');
-}
-function addUpgradeFromEquipment(id){ if(!quote.upgrades.includes(id)) quote.upgrades.push(id); startQuote(4); updateQuote(); }
-
-function buildEventGrid(){
-  document.getElementById('eventGrid').innerHTML = eventTypes.map(t => `<button onclick="selectEventType('${t}')" id="event-${cssId(t)}" class="event-btn bg-hGrey border rounded-3xl p-5 text-left hover:shadow-soft"><i class="fa-solid ${iconFor(t)} text-2xl mb-4"></i><div class="font-black text-lg">${t}</div></button>`).join('');
-}
-function selectEventType(t){ quote.eventType = t; if(['Church Service','Church Conference','Funeral','Corporate Meeting','Corporate Conference'].includes(t)) quote.focus='Speech'; if(['DJ Event','Festival','Birthday Party','Wedding','Engagement'].includes(t)) quote.focus='Music'; updateEventButtons(); nextStep(); }
-function updateEventButtons(){ document.querySelectorAll('.event-btn').forEach(b=>b.classList.remove('bg-hBlack','text-white')); const btn = document.getElementById('event-' + cssId(quote.eventType)); if(btn) btn.classList.add('bg-hBlack','text-white'); }
-function setIndoorOutdoor(v){ quote.indoorOutdoor=v; quote.services.outdoor = v === 'Outdoor'; document.getElementById('btnIndoor').className = v==='Indoor' ? activeChoice() : inactiveChoice(); document.getElementById('btnOutdoor').className = v==='Outdoor' ? activeChoice() : inactiveChoice(); updateQuote(); }
-function setFocus(v){ quote.focus=v; document.getElementById('btnSpeech').className = v==='Speech' ? activeChoice() : inactiveChoice(); document.getElementById('btnMusic').className = v==='Music' ? activeChoice() : inactiveChoice(); updateQuote(); }
-function activeChoice(){ return 'choice-btn p-4 rounded-2xl border font-black bg-hBlack text-white'; }
-function inactiveChoice(){ return 'choice-btn p-4 rounded-2xl border font-black bg-white'; }
-
-function buildStepBadges(){ const labels=['Event','Details','Package','Upgrades','Services','Details','Done']; document.getElementById('stepBadges').innerHTML = labels.map((l,i)=>`<div id="badge${i+1}" class="px-4 py-2 rounded-xl border text-sm font-black">${i+1}. ${l}</div>`).join(''); updateStepBadges(); }
-function updateStepBadges(){ for(let i=1;i<=7;i++){ const b=document.getElementById('badge'+i); if(!b) continue; b.className = i===currentStep ? 'px-4 py-2 rounded-xl border text-sm font-black bg-hBlack text-white' : i<currentStep ? 'px-4 py-2 rounded-xl border text-sm font-black bg-white text-hMid' : 'px-4 py-2 rounded-xl border text-sm font-black bg-hGrey text-hMid'; }}
-function showStep(n){ currentStep=n; document.querySelectorAll('.step').forEach(s=>s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); updateStepBadges(); if(n===3) renderRecommendations(); if(n===6) renderSummary(); updateQuote(); window.scrollTo({top:0, behavior:'smooth'}); }
-function startQuote(step=1){ goToPage('quote'); showStep(step); }
-function nextStep(){ if(currentStep===1 && !quote.eventType){ alert('Please choose an event type first.'); return; } if(currentStep===2){ quote.guestCount = Number(document.getElementById('guestCount').value || 0); } if(currentStep<7) showStep(currentStep+1); }
-function prevStep(){ if(currentStep>1) showStep(currentStep-1); }
-
-function recommendationScore(p){ const count = Number(document.getElementById('guestCount')?.value || quote.guestCount || 100); let score=0; if(p.types.includes(quote.eventType)) score+=50; if(count>=p.min && count<=p.max) score+=40; if(quote.focus==='Speech' && (p.types.some(t=>t.includes('Corporate')||t.includes('Church')||t.includes('Funeral')) || p.name.includes('Speech'))) score+=10; if(quote.focus==='Music' && (p.name.includes('DJ')||p.name.includes('Wedding')||p.name.includes('Festival'))) score+=10; return score; }
-function renderRecommendations(){
-  quote.guestCount = Number(document.getElementById('guestCount').value || 100);
-  let recs = [...packages].sort((a,b)=>recommendationScore(b)-recommendationScore(a)).slice(0,3);
-  if(quote.guestCount>=500) recs = packages.filter(p=>p.id==='festival').concat(recs.filter(p=>p.id!=='festival')).slice(0,3);
-  document.getElementById('recommendations').innerHTML = recs.map((p,idx)=>`<button onclick="selectPackage('${p.id}')" id="rec-${p.id}" class="w-full text-left border rounded-3xl p-5 ${quote.packageId===p.id?'bg-hBlack text-white':'bg-hGrey hover:bg-zinc-200'}"><div class="flex justify-between gap-4"><div><div class="text-xs font-black uppercase text-hMid">${idx===0?'Good match':idx===1?'Better option':'Best / bigger option'}</div><h3 class="text-2xl font-black mt-1">${p.name}</h3><p class="mt-2 opacity-80">${p.guests} guests • ${p.desc}</p></div><div class="text-3xl font-black">R${money(p.price)}</div></div></button>`).join('') + `<button onclick="selectPackage('')" class="w-full text-left border rounded-3xl p-5 bg-white"><h3 class="font-black text-xl">No package yet - I will add items only</h3><p class="text-hMid mt-2">Use the upgrades page to choose individual equipment.</p></button>`;
-}
-function selectPackage(id){ quote.packageId=id; renderRecommendations(); updateQuote(); }
-
-function buildUpgradeList(){
-  const upgradeIds = ['mic5','mic6','mic7','mic8','lt12','lt14','lt15','lt16','fx1','fx3','fx6','vis1','vis4','pwr1','pwr2','dja5','dj3','dj1','dj2'];
-  const items = upgradeIds.map(id=>equipment.find(e=>e.id===id)).filter(Boolean);
-  document.getElementById('upgradeList').innerHTML = items.map(e => `<label class="flex items-start gap-3 bg-hGrey border rounded-2xl p-4 cursor-pointer"><input type="checkbox" value="${e.id}" onchange="toggleUpgrade('${e.id}', this.checked)" class="mt-1 h-5 w-5 accent-hBlack"><div class="flex-1"><div class="font-black">${e.name}</div><div class="text-sm text-hMid">${e.cat}</div></div><div class="font-black">R${money(e.price)}</div></label>`).join('');
-}
-function toggleUpgrade(id, checked){ if(checked && !quote.upgrades.includes(id)) quote.upgrades.push(id); if(!checked) quote.upgrades = quote.upgrades.filter(x=>x!==id); updateQuote(); }
-
-function buildServiceOptions(){
-  const opts = [
-    ['delivery','Delivery & collection required','Admin will confirm delivery price based on distance','TBD'],
-    ['setup','Setup required','Basic setup support','R150'],
-    ['soundcheck','Sound check required','Recommended for speeches, church and performance','R250'],
-    ['outdoor','Outdoor event protection','Required for outdoor or semi-covered events','R200'],
-    ['late','Late night collection','For collection after normal hours','R300'],
-    ['planning','Custom planning','For special layouts or complex venues','R250'],
-    ['technician','On-site technician','Suggested full-day technician guideline','R650']
-  ];
-  document.getElementById('serviceOptions').innerHTML = opts.map(o => `<label class="flex items-start gap-3 bg-hGrey border rounded-2xl p-4 cursor-pointer"><input id="svc-${o[0]}" type="checkbox" onchange="toggleService('${o[0]}', this.checked)" class="mt-1 h-5 w-5 accent-hBlack"><div class="flex-1"><div class="font-black">${o[1]}</div><div class="text-sm text-hMid">${o[2]}</div></div><div class="font-black">${o[3]}</div></label>`).join('');
-}
-function toggleService(key, checked){ quote.services[key]=checked; updateQuote(); }
-
-function getPackage(){ return packages.find(p=>p.id===quote.packageId); }
-function getUpgradeItems(){ return quote.upgrades.map(id=>equipment.find(e=>e.id===id)).filter(Boolean); }
-function getTotals(){
-  const pkg = getPackage();
-  const base = pkg ? pkg.price : 0;
-  const upgrades = getUpgradeItems().reduce((sum,e)=>sum+e.price,0);
-  const equipmentTotal = base + upgrades;
-  const serviceFee = equipmentTotal < 1000 ? 150 : equipmentTotal <= 2500 ? 250 : equipmentTotal <= 5000 ? 350 : 500;
-  const setupFee = quote.services.setup ? 150 : 0;
-  const extras = (quote.services.soundcheck?250:0) + (quote.services.outdoor?200:0) + (quote.services.late?300:0) + (quote.services.planning?250:0) + (quote.services.technician?650:0);
-  const deliveryFee = 0;
-  return {base, upgrades, equipmentTotal, serviceFee, setupFee, extras, deliveryFee, total: equipmentTotal + serviceFee + setupFee + extras + deliveryFee};
-}
-function updateQuote(){ const t=getTotals(); document.getElementById('floatingTotalAmount').innerText=money(t.total); if(document.getElementById('quoteSummary')) renderSummary(); }
-function renderSummary(){
-  const t=getTotals(); const pkg=getPackage(); const upgrades=getUpgradeItems();
-  document.getElementById('quoteSummary').innerHTML = `<div class="text-xs tracking-widest text-zinc-400 font-black mb-4">HNDLT ESTIMATED QUOTE</div>
-    <div class="space-y-2 text-sm"><div class="flex justify-between"><span class="text-zinc-400">Event type</span><span>${quote.eventType || '-'}</span></div><div class="flex justify-between"><span class="text-zinc-400">Guest count</span><span>${quote.guestCount || '-'}</span></div><div class="flex justify-between"><span class="text-zinc-400">Package</span><span>${pkg ? pkg.name : 'No package selected'}</span></div><div class="flex justify-between"><span class="text-zinc-400">Base package</span><span>R${money(t.base)}</span></div><div class="flex justify-between"><span class="text-zinc-400">Upgrades</span><span>R${money(t.upgrades)}</span></div><div class="flex justify-between"><span class="text-zinc-400">Booking, preparation & handling</span><span>R${money(t.serviceFee)}</span></div><div class="flex justify-between"><span class="text-zinc-400">Setup</span><span>R${money(t.setupFee)}</span></div><div class="flex justify-between"><span class="text-zinc-400">Other service extras</span><span>R${money(t.extras)}</span></div><div class="flex justify-between"><span class="text-zinc-400">Delivery & collection</span><span>${quote.services.delivery ? 'TBD by admin' : 'Not selected'}</span></div><div class="border-t border-white/10 pt-4 mt-4 flex justify-between text-xl font-black"><span>Total estimate</span><span>R${money(t.total)}</span></div></div>
-    <div class="text-xs text-zinc-500 mt-4">Selected upgrades: ${upgrades.map(u=>u.name).join(', ') || 'None'}</div>`;
-}
-
-async function submitQuote(e){
-  e.preventDefault();
-  const btn = document.getElementById('submitQuoteBtn');
-  btn.disabled = true; btn.innerText = 'Sending to HNDLT...';
-  const pkg = getPackage(); const upgrades = getUpgradeItems(); const totals = getTotals();
-  const selectedEquipment = [pkg ? pkg.name : '', ...upgrades.map(u=>u.name)].filter(Boolean).join(', ');
-  const data = {
-    full_name: document.getElementById('fullName').value.trim(),
-    phone_number: document.getElementById('phoneNumber').value.trim(),
-    whatsapp_number: document.getElementById('whatsappNumber').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    event_date: document.getElementById('eventDate').value || null,
-    event_type: quote.eventType,
-    location: document.getElementById('location').value.trim(),
-    guest_count: Number(quote.guestCount || document.getElementById('guestCount').value || 0),
-    indoor_outdoor: quote.indoorOutdoor,
-    event_focus: quote.focus,
-    selected_package: pkg ? pkg.name : 'No package selected',
-    selected_equipment: selectedEquipment,
-    delivery_required: quote.services.delivery ? 'Yes' : 'No',
-    setup_required: quote.services.setup ? 'Yes' : 'No',
-    soundcheck_required: quote.services.soundcheck ? 'Yes' : 'No',
-    outdoor_fee_required: quote.services.outdoor ? 'Yes' : 'No',
-    late_collection_required: quote.services.late ? 'Yes' : 'No',
-    custom_planning_required: quote.services.planning ? 'Yes' : 'No',
-    technician_required: quote.services.technician ? 'Yes' : 'No',
-    budget_range: document.getElementById('budgetRange').value.trim(),
-    notes: document.getElementById('notes').value.trim(),
-    equipment_total: totals.equipmentTotal,
-    service_fee: totals.serviceFee,
-    extras_total: totals.extras,
-    delivery_fee: totals.deliveryFee,
-    setup_fee: totals.setupFee,
-    final_total: totals.total,
-    status: 'New',
-    lead_source: 'Website',
-    quote_payload: { quote, package: pkg, upgrades, totals }
-  };
-  const { error } = await db.from('client_requests').insert([data]);
-  if(error){ alert('Could not save request: ' + error.message); console.error(error); btn.disabled=false; btn.innerText='Submit Quote Request'; return; }
-  lastSubmittedSummary = buildWhatsAppMessage(data);
-  document.getElementById('quoteForm').reset();
-  btn.disabled=false; btn.innerText='Submit Quote Request';
-  showStep(7);
-}
-
-function buildWhatsAppMessage(d){ return `Hi HNDLT, I submitted a quote request.\n\nName: ${d.full_name}\nEvent: ${d.event_type}\nDate: ${d.event_date || '-'}\nLocation: ${d.location}\nGuests: ${d.guest_count}\nIndoor/Outdoor: ${d.indoor_outdoor}\nPackage: ${d.selected_package}\nEquipment: ${d.selected_equipment || '-'}\nEstimated total: R${money(d.final_total)}\nDelivery: ${d.delivery_required}\nSetup: ${d.setup_required}\nNotes: ${d.notes || '-'}`; }
-function openWhatsAppSummary(){ const msg = encodeURIComponent(lastSubmittedSummary || 'Hi HNDLT, I would like help with an event equipment quote.'); window.open('https://wa.me/27730882155?text=' + msg, '_blank'); }
-function emptyCard(text){ return `<div class="col-span-full bg-hGrey border rounded-3xl p-8 text-center text-hMid font-bold">${text}</div>`; }
-function cssId(s){ return String(s).replace(/[^a-zA-Z0-9]/g,'_'); }
-
-document.getElementById('quoteForm').addEventListener('submit', submitQuote);
-buildUI();
-</script>
+  <script src="app.js"></script>
 </body>
 </html>
